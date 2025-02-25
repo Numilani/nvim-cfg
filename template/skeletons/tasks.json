@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Say Hello",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Hello World!"]
+    },
+    {
+      "label": "Say Goodbye",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Goodbye!"],
+      "group": "none"
+    },
+    {
+      "label": "Test Compound Cmd",
+      "type": "shell",
+      "command": "echo",
+      "args": ["done"],
+      "dependsOrder": "sequence",
+      "dependsOn": ["Say Hello", "Say Goodbye"]
+    }
+  ]
+}
