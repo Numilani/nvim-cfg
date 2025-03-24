@@ -20,56 +20,60 @@ return {
 				},
 			},
 			signature = {
-				enabled = true,
+				enabled = false,
 			},
 		},
 	},
-	{
-		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-		config = function()
-			require("lsp_lines").setup()
-		end,
-	},
+  {
+    'dgagn/diagflow.nvim',
+    config = function()
+      require('diagflow').setup()
+    end
+  },
 	{
 		"stevearc/overseer.nvim",
 		config = function()
       require('overseer').setup({
-        templates = {"builtin", "user.csharp_watchrun", "user.csharp_run", "user.cpp_build", "user.cpp_buildrun"}
+        templates = {"builtin", "user.csharp_watchrun", "user.csharp_run", "user.csharp_build", "user.cpp_build", "user.cpp_buildrun" }
       })
     end,
 	},
 	{
 		"folke/trouble.nvim",
-		opts = {}, -- for default options, refer to the configuration section for custom setup.
+		opts = {
+      win = {
+        size = 0.5,
+      }
+    }, -- for default options, refer to the configuration section for custom setup.
 		cmd = "Trouble",
 		keys = {
 			{
-				"<leader>xx",
+				"<leader>cX",
 				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
+				desc = "All Diagnostics (Trouble)",
 			},
 			{
-				"<leader>xX",
+				"<leader>cD",
 				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 				desc = "Buffer Diagnostics (Trouble)",
 			},
 			{
-				"<leader>cs",
+				"<leader>xs",
 				"<cmd>Trouble symbols toggle focus=false<cr>",
 				desc = "Symbols (Trouble)",
 			},
 			{
-				"<leader>cl",
+				"<leader>cL",
 				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
 				desc = "LSP Definitions / references / ... (Trouble)",
 			},
 			{
-				"<leader>xL",
+				"<leader>cL",
 				"<cmd>Trouble loclist toggle<cr>",
 				desc = "Location List (Trouble)",
 			},
 			{
-				"<leader>xQ",
+				"<leader>cQ",
 				"<cmd>Trouble qflist toggle<cr>",
 				desc = "Quickfix List (Trouble)",
 			},
@@ -104,4 +108,10 @@ return {
       })
 		end,
 	},
+  {
+    "ray-x/lsp_signature.nvim",
+    setup = function()
+      require "lsp_signature".setup()
+    end
+  },
 }

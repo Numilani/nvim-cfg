@@ -92,15 +92,18 @@ vim.keymap.set("n", "<C-Up>", "<C-w>+", { desc = "- Win Height" })
 vim.keymap.set("n", "<C-Left>", "<C-w><", { desc = "+ Win Width" })
 vim.keymap.set("n", "<C-Right>", "<C-w>>", { desc = "- Win Width" })
 
--- vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", {desc = "show/hide terminal"})
 vim.keymap.set('n', '<C-t>', "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
 vim.keymap.set('t', '<C-t>', "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
-vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>", { desc = "Code Problems" })
-vim.keymap.set("n", "<leader>ct", require("lsp_lines").toggle, { desc = "Toggle Inline Diagnostic" })
-vim.keymap.set("n", "<leader>cT", ":OverseerRun<CR>", {desc = "Run Task..."})
+vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>", { desc = "Buffer Diagnostics" })
+vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", {desc = "Run Task..."})
+vim.keymap.set({"n", "i"}, "<C-s>", function() vim.lsp.buf.signature_help() end, {desc = "Signature Help"})
+vim.keymap.set("n", "<leader>cv", function() vim.lsp.buf.hover() end, {desc = "View Value under Cursor"})
+vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, {desc = "Rename..."})
+vim.keymap.set("n", "<leader>cq", ":lua require'telescope.builtin'.quickfix()<CR>", {desc = "Show quickfix"})
+vim.keymap.set("n", "<leader>cx", function() for _,client in ipairs(vim.lsp.buf_get_clients()) do require('workspace-diagnostics').populate_workspace_diagnostics(client,0) end end, {desc = "Populate diagnostics"})
 
 -- (n) <leader>cf - format code
 -- vim.keymap.set("n", "<leader>cf", ":FzfLua quickfix<CR>", {desc = "Quickfix List"})
