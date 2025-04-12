@@ -60,7 +60,7 @@ vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl
 vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
 require("config.lazy")
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme moonfly")
 
 -- skeletons
 vim.api.nvim_create_autocmd("BufNewFile", {

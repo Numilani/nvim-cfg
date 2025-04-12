@@ -1,10 +1,13 @@
 return {
   -- tokyonight - color theme!
-	{
-		"folke/tokyonight.nvim",
-		lazy = true,
-		opts = { style = "moon" },
-	},
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	lazy = true,
+	-- 	opts = { style = "moon" },
+	-- },
+  {
+    'bluz71/vim-moonfly-colors', name = "moonfly", lazy = false, priority = 1000
+  },
   -- todo-comments - highlight TODO, NOTE, and other annotations!
 	{
 		"folke/todo-comments.nvim",
