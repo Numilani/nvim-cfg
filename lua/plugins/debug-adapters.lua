@@ -26,7 +26,7 @@ return {
         host = "localhost",
         port = "${port}",
         executable = {
-          command = "node",
+          command = "bun",
           args = {
             os.getenv('HOME') .. "/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
             "${port}"
