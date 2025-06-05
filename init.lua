@@ -1,5 +1,24 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.clipboard = "osc52"
+
+function no_paste(reg)
+  return function(lines)
+    -- Do nothing! We can't paste with OSC52
+  end
+end
+
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = no_paste("+"),     -- Pasting disabled
+    ["*"] = no_paste("*"),     -- Pasting disabled
+  }
+}
 
 vim.opt.termguicolors = true
 vim.opt.nu = true
@@ -50,8 +69,13 @@ vim.api.nvim_set_hl(namespace, 'DapBreakpoint', { fg = '#eaeaeb', bg = '#ffffff'
 vim.api.nvim_set_hl(namespace, 'DapLogPoint', { fg = '#eaeaeb', bg = '#ffffff' })
 vim.api.nvim_set_hl(namespace, 'DapStopped', { fg = '#eaeaeb', bg = '#ffffff' })
 
-vim.fn.sign_define('DapBreakpoint', { text = '•', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl =
-'DapBreakpoint' })
+vim.fn.sign_define('DapBreakpoint', {
+  text = '•',
+  texthl = 'DapBreakpoint',
+  linehl = 'DapBreakpoint',
+  numhl =
+  'DapBreakpoint'
+})
 vim.fn.sign_define('DapBreakpointCondition',
   { text = '•', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
 vim.fn.sign_define('DapBreakpointRejected',
@@ -64,8 +88,8 @@ vim.cmd("colorscheme moonfly")
 
 -- skeletons
 vim.api.nvim_create_autocmd("BufNewFile", {
-  pattern = {"tasks.json"},
-  callback = function() 
+  pattern = { "tasks.json" },
+  callback = function()
     vim.cmd("silent! 0r $XDG_CONFIG_HOME/template/skeletons/tasks.json")
   end
 })
@@ -97,13 +121,20 @@ vim.keymap.set('t', '<C-t>', "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", 
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
-vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>", { desc = "Buffer Diagnostics" })
-vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", {desc = "Run Task..."})
-vim.keymap.set({"n", "i"}, "<C-s>", function() vim.lsp.buf.signature_help() end, {desc = "Signature Help"})
-vim.keymap.set("n", "<leader>cv", function() vim.lsp.buf.hover() end, {desc = "View Value under Cursor"})
-vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, {desc = "Rename..."})
-vim.keymap.set("n", "<leader>cq", ":lua require'telescope.builtin'.quickfix()<CR>", {desc = "Show quickfix"})
-vim.keymap.set("n", "<leader>cx", function() for _,client in ipairs(vim.lsp.buf_get_clients()) do require('workspace-diagnostics').populate_workspace_diagnostics(client,0) end end, {desc = "Populate diagnostics"})
+vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>",
+  { desc = "Buffer Diagnostics" })
+vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
+vim.keymap.set({ "n", "i" }, "<C-s>", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+vim.keymap.set("n", "<leader>cv", function() vim.lsp.buf.hover() end, { desc = "View Value under Cursor" })
+vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename..." })
+vim.keymap.set("n", "<leader>cq", ":lua require'telescope.builtin'.quickfix()<CR>", { desc = "Show quickfix" })
+vim.keymap.set("n", "<leader>cx",
+  function()
+    for _, client in ipairs(vim.lsp.buf_get_clients()) do
+      require('workspace-diagnostics')
+          .populate_workspace_diagnostics(client, 0)
+    end
+  end, { desc = "Populate diagnostics" })
 
 -- (n) <leader>cf - format code
 -- vim.keymap.set("n", "<leader>cf", ":FzfLua quickfix<CR>", {desc = "Quickfix List"})
@@ -112,15 +143,20 @@ vim.keymap.set("n", "<leader>cx", function() for _,client in ipairs(vim.lsp.buf_
 -- Goto commands
 vim.keymap.set("n", "<leader>gr", ":lua require'telescope.builtin'.lsp_references()<CR>", { desc = "Goto References" })
 vim.keymap.set("n", "<leader>gd", ":lua require'telescope.builtin'.lsp_definitions()<CR>", { desc = "Goto Definitions" })
-vim.keymap.set("n", "<leader>gi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
-vim.keymap.set("n", "<leader>go", ":lua require'telescope.builtin'.lsp_outgoing_calls()<CR>", { desc = "Goto Outgoing calls" })
-vim.keymap.set("n", "<leader>gs", ":lua require'telescope.builtin'.lsp_document_symbols()<CR>", { desc = "Goto Doc Symbols" })
-vim.keymap.set("n", "<leader>gS", ":lua require'telescope.builtin'.lsp_workspace_symbols()<CR>", { desc = "Goto ALL Symbols" })
+vim.keymap.set("n", "<leader>gi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>",
+  { desc = "Goto Incoming Calls" })
+vim.keymap.set("n", "<leader>go", ":lua require'telescope.builtin'.lsp_outgoing_calls()<CR>",
+  { desc = "Goto Outgoing calls" })
+vim.keymap.set("n", "<leader>gs", ":lua require'telescope.builtin'.lsp_document_symbols()<CR>",
+  { desc = "Goto Doc Symbols" })
+vim.keymap.set("n", "<leader>gS", ":lua require'telescope.builtin'.lsp_workspace_symbols()<CR>",
+  { desc = "Goto ALL Symbols" })
 
 
 -- Find commands
-vim.keymap.set("n", "<leader>ff", ':lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>', { desc = "Find in File" })
-vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', {desc = "Find Everywhere"})
+vim.keymap.set("n", "<leader>ff", ':lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>',
+  { desc = "Find in File" })
+vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', { desc = "Find Everywhere" })
 
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 -- (n) <leader>j - flash (acejump)
@@ -145,3 +181,5 @@ vim.keymap.set({ "n", "v" }, "<F11>", ":lua require('dapui').eval()<CR>:lua requ
   { desc = "Eval Cursor" })
 vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
   { desc = "Eval Cursor" })
+
+
