@@ -97,8 +97,6 @@ return {
 					exclude = {
 						"rust_analyzer",
 						"jdtls",
-						"roslyn",
-						"rzls",
 					},
 				},
 			})
