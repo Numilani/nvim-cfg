@@ -54,23 +54,23 @@ return {
           console = "integratedTerminal",
         },
       }
-      -- dap.configurations.java = {
-      -- 	{
-      -- 		type = "java",
-      -- 		request = "attach",
-      -- 		name = "Attach to Remote",
-      -- 		hostName = "127.0.0.1",
-      -- 		port = 5005,
-      -- 	},
-      -- 	{
-      -- 		type = "java",
-      -- 		request = "launch",
-      -- 		name = "Launch Project",
-      -- 		-- mainClass = function() return vim.fn.input("Main Class: ", mainClass) end
-      -- 		classPaths = {}, -- jdtls should auto-populate
-      -- 		modulePaths = {}, -- jdtls should auto-populate
-      -- 	},
-      -- }
+      dap.configurations.java = {
+      	{
+      		type = "java",
+      		request = "attach",
+      		name = "Attach to Remote",
+      		hostName = "127.0.0.1",
+      		port = 5005,
+      	},
+      	{
+      		type = "java",
+      		request = "launch",
+      		name = "Launch Project",
+      		-- mainClass = function() return vim.fn.input("Main Class: ", mainClass) end
+      		classPaths = {}, -- jdtls should auto-populate
+      		modulePaths = {}, -- jdtls should auto-populate
+      	},
+      }
       -- dap.configurations.javascript = {
       --   {
       --     type = "node2",

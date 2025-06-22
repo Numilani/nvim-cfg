@@ -182,4 +182,5 @@ vim.keymap.set({ "n", "v" }, "<F11>", ":lua require('dapui').eval()<CR>:lua requ
 vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
   { desc = "Eval Cursor" })
 
-
+vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>", {desc = "Toggle summary"})
+vim.keymap.set("n", "<leader>to", ":lua require('neotest').output_panel.toggle()<CR>", {desc = "Toggle output panel"})
