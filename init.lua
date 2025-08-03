@@ -182,5 +182,9 @@ vim.keymap.set({ "n", "v" }, "<F11>", ":lua require('dapui').eval()<CR>:lua requ
 vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
   { desc = "Eval Cursor" })
 
+vim.keymap.set("n", "<leader>ta", ":lua require('neotest').run.attach()<CR>", {desc = "Attach"})
+vim.keymap.set("n", "<leader>tx", ":lua require('neotest').run.stop()<CR>", {desc = "Terminate"})
 vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>", {desc = "Toggle summary"})
 vim.keymap.set("n", "<leader>to", ":lua require('neotest').output_panel.toggle()<CR>", {desc = "Toggle output panel"})
+vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", {desc = "Run nearest test"})
+vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true})<CR>", {desc = "Run test suite"})

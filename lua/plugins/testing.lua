@@ -2,7 +2,7 @@ return {
   {
     "nvim-neotest/neotest-python"
   },
-  {
+ {
     "nsidorenco/neotest-vstest"
   },
   {
@@ -25,22 +25,10 @@ return {
     config = function()
       require("neotest").setup({
         adapters = {
-          function()
-            if vim.bo.filetype == "java" then
-              return require("neotest-java")
-            end
-          end,
-          function()
-            if vim.bo.filetype == "python" then
-              return require("neotest-python")
-            end
-          end,
-          function()
-            if vim.bo.filetype == "rust" then
-              return require("rustaceanvim.neotest")
-            end
-          end,
-          require("neotest-vstest")
+          require("neotest-vstest"),
+          require("neotest-java"),
+          require("neotest-python"),
+          require("rustaceanvim.neotest"),
         }
       })
     end
