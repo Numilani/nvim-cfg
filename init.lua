@@ -94,7 +94,8 @@ vim.api.nvim_create_autocmd("BufNewFile", {
   end
 })
 
-
+-- TEMPLATE
+-- vim.keymap.set("n", "<leader>", "", { desc = ""})
 
 -- Keymaps from Other Places
 -- (n) <leader>j - flash (acejump)
@@ -188,3 +189,8 @@ vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>"
 vim.keymap.set("n", "<leader>to", ":lua require('neotest').output_panel.toggle()<CR>", {desc = "Toggle output panel"})
 vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", {desc = "Run nearest test"})
 vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true})<CR>", {desc = "Run test suite"})
+
+
+vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error"})
+vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error"})
+
