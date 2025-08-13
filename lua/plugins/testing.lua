@@ -1,36 +1,63 @@
 return {
-  {
-    "nvim-neotest/neotest-python"
-  },
- {
-    "nsidorenco/neotest-vstest"
-  },
-  {
-    "rcasia/neotest-java",
-    ft = "java",
-    dependencies = {
-      "mfussenegger/nvim-jdtls",
-      "mfussenegger/nvim-dap",
-      "rcarriga/nvim-dap-ui"
-    }
-  },
+  -- Neotest core (no adapters here)
   {
     "nvim-neotest/neotest",
+    ft = { "python", "java", "cs" },
     dependencies = {
-      "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
     },
     config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-vstest"),
-          require("neotest-java"),
-          require("neotest-python"),
-          require("rustaceanvim.neotest"),
-        }
+      local function setup_neotest_for_ft(ft)
+
+        local adapters = {}
+
+        if ft == "python" then
+          adapters[#adapters+1] = require("neotest-python")({
+            dap = { justMyCode = false },
+          })
+        elseif ft == "java" then
+          adapters[#adapters+1] = require("neotest-java")()
+        elseif ft == "cs" then
+          adapters[#adapters+1] = require("neotest-vstest")()
+        end
+
+        require("neotest").setup({ adapters = adapters })
+      end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "python", "java", "cs" },
+        callback = function(args)
+          setup_neotest_for_ft(args.match)
+        end,
       })
-    end
-  }
+    end,
+  },
+
+  -- Python adapter
+  {
+    "nvim-neotest/neotest-python",
+    ft = { "python" },
+  },
+
+  -- Java adapter + deps
+  {
+    "rcasia/neotest-java",
+    ft = { "java" },
+    dependencies = {
+
+      "mfussenegger/nvim-jdtls",
+      "mfussenegger/nvim-dap",
+
+      "rcarriga/nvim-dap-ui",
+    },
+  },
+
+  -- VSTest adapter (nsidorenko)
+  {
+    "nsidorenko/neotest-vstest",
+    ft = { "cs" },
+  },
 }
+
