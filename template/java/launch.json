@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Debug Main()"
+    },
+    {
+      "type": "java",
+      "request": "attach",
+      "name": "Attach Debugger",
+      "hostName": "127.0.0.1",
+      "port": 5005
+    }
+  ]
+}
