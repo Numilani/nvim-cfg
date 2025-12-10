@@ -117,17 +117,20 @@ return {
         })
       end
 
-      require("ufo").setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return { 'treesitter', 'indent' }
-        end
-      })
+      -- require("ufo").setup({
+      --   provider_selector = function(bufnr, filetype, buftype)
+      --     return { 'treesitter', 'indent' }
+      --   end
+      -- })
     end,
   },
   {
-    "ray-x/lsp_signature.nvim",
-    setup = function()
-      require "lsp_signature".setup()
-    end
+    "HiPhish/rainbow-delimiters.nvim"
   },
+  -- {
+  --   "ray-x/lsp_signature.nvim",
+  --   setup = function()
+  --     require "lsp_signature".setup()
+  --   end
+  -- },
 }

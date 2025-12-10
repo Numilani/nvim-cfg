@@ -56,7 +56,7 @@ return {
 
   -- VSTest adapter (nsidorenko)
   {
-    "nsidorenko/neotest-vstest",
+    "Nsidorenco/neotest-vstest",
     ft = { "cs" },
   },
 }

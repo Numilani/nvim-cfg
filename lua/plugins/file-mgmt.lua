@@ -75,7 +75,7 @@ return {
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "html", "javascript", "java", "c_sharp", "python" },
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "html", "javascript", "typescript", "tsx", "java", "c_sharp", "python" },
         highlight = { enable = true },
         indent = { enable = true },
       })
@@ -88,7 +88,14 @@ return {
   {
     "windwp/nvim-ts-autotag",
     config = function()
-      require("nvim-ts-autotag").setup()
+      require("nvim-ts-autotag").setup({
+        opts = {
+          enable = true,
+          enable_close = true,
+          enable_rename = true,
+          filetypes = {"html", "xml", "js", "jsx", "typescript", "ts", "tsx", "javascriptreact", "typescriptreact"}
+        }
+      })
     end,
   },
   -- {
