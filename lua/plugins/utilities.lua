@@ -75,4 +75,11 @@ return {
   {
     "lewis6991/gitsigns.nvim"
   },
+  {
+    "chrisgrieser/nvim-recorder",
+    dependencies = "rcarriga/nvim-notify",
+    opts = {
+      dynamicSlots = "rotate"
+    },
+  },
 }

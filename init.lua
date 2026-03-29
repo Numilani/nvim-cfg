@@ -94,6 +94,19 @@ vim.api.nvim_create_autocmd("BufNewFile", {
   end
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "dapui_*",
+  callback = function()
+    vim.opt_local.winfixwidth = true
+    vim.opt_local.winfixheight = true
+  end
+})
+vim.api.nvim_create_autocmd("BufDelete", {
+  callback = function()
+      require("dapui").close()
+  end
+})
+
 -- TEMPLATE
 -- vim.keymap.set("n", "<leader>", "", { desc = ""})
 
@@ -194,3 +207,5 @@ vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true
 vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error"})
 vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error"})
 
+vim.keymap.set("n", "<leader>i", ":Telescope find_template<CR>", {desc = "Insert template"})
+vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", {desc = "Hot Reload"})

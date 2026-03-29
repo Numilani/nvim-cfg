@@ -19,8 +19,10 @@ return {
           -- razor = { "injected", lsp_format = "never" },
           -- html = {"htmlbeautifier"},
           html = { "prettier", "prettierd" },
+          xml = {"prettier", "prettierd"},
           javascript = { "js_beautify" },
           typescript = { "prettier", "prettierd" },
+          json = {"prettier", "prettierd"}
         },
         default_format_opts = {
           lsp_format = "prefer",

@@ -14,6 +14,13 @@ return {
 		version = "^5",
 		lazy = false,
 	},
+	-- {
+	-- 	"nvim-java/nvim-java",
+	-- 	config = function()
+	-- 		require("java").setup()
+	-- 		vim.lsp.enable("jdtls")
+	-- 	end,
+	-- },
 	{
 		"seblyng/roslyn.nvim",
 		ft = { "cs", "razor" },
@@ -26,11 +33,11 @@ return {
 			-- 	"--stdio",
 			-- 	"--logLevel=Information",
 			-- 	"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-				-- "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
-				-- "--razorDesignTimePath="
-					-- .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
-				-- "--extension",
-				-- vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
+			-- "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
+			-- "--razorDesignTimePath="
+			-- .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
+			-- "--extension",
+			-- vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
 			-- }
 
 			vim.lsp.config("roslyn", {
@@ -90,7 +97,7 @@ return {
 				automatic_enable = {
 					exclude = {
 						"rust_analyzer",
-						"jdtls",
+						-- "jdtls",
 					},
 				},
 			})
