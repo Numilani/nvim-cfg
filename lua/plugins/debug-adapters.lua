@@ -195,56 +195,37 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-dap-ui",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio",
-    },
-    config = function()
-      require("dapui").setup({
-        layouts = {
-          {
-            elements = {
-              {id = "scopes", size = 0.5},
-              {id = "breakpoints", size = 0.25},
-              {id = "watches", size = 0.25},
-            },
-            position = "left",
-            size = 40,
-          },
-          {
-            elements = {
-              {id = "repl", size = 0.5},
-              {id = "console", size = 0.5},
-            },
-            position = "bottom",
-            size = 10
-          },
-        },
-      })
-    end,
+    "igorlfs/nvim-dap-view",
+    lazy = false,
   },
   -- {
-  -- 	"jay-babu/mason-nvim-dap.nvim",
-  -- 	dependencies = {
-  -- 		"williamboman/mason.nvim",
-  -- 	},
-  -- 	config = function()
-  -- 		require("mason-nvim-dap").setup({
-  -- 			handlers = {
-  -- 				function(config)
-  -- 					require("mason-nvim-dap").default_setup(config)
-  -- 				end,
-  -- 				node2 = function(config)
-  -- 					config.adapters = {
-  -- 						type = "executable",
-  -- 						command = vim.fn.exepath("node-debug2-adapter"),
-  -- 						args = { "--experimental-transform-types" },
-  -- 					}
-  -- 					require("mason-nvim-dap").default_setup(config)
-  -- 				end,
-  -- 			},
-  -- 		})
-  -- 	end,
+  --   "rcarriga/nvim-dap-ui",
+  --   dependencies = {
+  --     "mfussenegger/nvim-dap",
+  --     "nvim-neotest/nvim-nio",
+  --   },
+  --   config = function()
+  --     require("dapui").setup({
+  --       layouts = {
+  --         {
+  --           elements = {
+  --             {id = "scopes", size = 0.5},
+  --             {id = "breakpoints", size = 0.25},
+  --             {id = "watches", size = 0.25},
+  --           },
+  --           position = "left",
+  --           size = 40,
+  --         },
+  --         {
+  --           elements = {
+  --             {id = "repl", size = 0.5},
+  --             {id = "console", size = 0.5},
+  --           },
+  --           position = "bottom",
+  --           size = 10
+  --         },
+  --       },
+  --     })
+  --   end,
   -- },
-}
+  }

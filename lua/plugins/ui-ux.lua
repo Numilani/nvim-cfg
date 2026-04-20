@@ -33,6 +33,9 @@ return {
       })
     end
   },
+  {
+    "szw/vim-maximizer"
+  },
   -- Noice - new UI design for infoboxes (use :noice instead of :messages)
   {
     "folke/noice.nvim",

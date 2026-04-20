@@ -24,6 +24,7 @@ return {
 			require("mini.surround").setup()
 			require("mini.cursorword").setup()
 			require("mini.basics").setup()
+      require("mini.bufremove").setup()
 			-- require("mini.move").setup()
 		end,
 	},
@@ -80,6 +81,16 @@ return {
     dependencies = "rcarriga/nvim-notify",
     opts = {
       dynamicSlots = "rotate"
+    },
+  },
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    opts = {
+      preview = {
+        filetypes = {"markdown", "codecompanion"},
+        ignore_buftypes = {},
+      },
     },
   },
 }

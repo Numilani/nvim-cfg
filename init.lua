@@ -107,6 +107,15 @@ vim.api.nvim_create_autocmd("BufDelete", {
   end
 })
 
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    if bufname:match("claude") then
+      vim.opt_local.buflisted = false
+    end
+  end,
+})
+
 -- TEMPLATE
 -- vim.keymap.set("n", "<leader>", "", { desc = ""})
 
@@ -116,7 +125,8 @@ vim.api.nvim_create_autocmd("BufDelete", {
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 -- UI commands
-vim.keymap.set("n", "<leader>w", ":bd<CR>", { desc = "Close Buffer" })
+vim.keymap.set("n", "<leader>w", function() require('mini.bufremove').delete() end, { desc = "Close Buffer" })
+vim.keymap.set("n", "<leader>W", function() require('mini.bufremove').delete(0, true) end, { desc = "Force Close Buffer" })
 vim.keymap.set("n", "<leader>e", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
 
 -- Buffer/Window commands
@@ -124,6 +134,7 @@ vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<leader><Tab>", "<C-w>w", { desc = "Next Window" })
 vim.keymap.set("n", "<leader><S-Tab>", "<C-w>W", { desc = "Prev Window" })
+vim.keymap.set("n", "<F3>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
 
 vim.keymap.set("n", "<C-Down>", "<C-w>-", { desc = "+ Win Height" })
 vim.keymap.set("n", "<C-Up>", "<C-w>+", { desc = "- Win Height" })
@@ -177,7 +188,8 @@ vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 
 -- Debug commands
-vim.keymap.set("n", "<leader>du", ":lua require'dapui'.toggle()<CR>", { desc = "toggle debug UI" })
+-- vim.keymap.set("n", "<leader>du", ":lua require'dapui'.toggle()<CR>", { desc = "toggle debug UI" })
+vim.keymap.set("n", "<leader>du", ":DapViewToggle<CR>", { desc = "toggle debug UI" })
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
 vim.keymap.set("n", "<leader>ds", ":lua require'telescope'.extensions.dap.configurations()<CR>", { desc = "Start Debug" })
 vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { desc = "Breakpoint" })
@@ -186,15 +198,15 @@ vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { desc = "Stop" })
 vim.keymap.set("n", "<leader>do", ":DapStepOver<CR>", { desc = "Step Over" })
 vim.keymap.set("n", "<leader>d>", ":DapStepInto<CR>", { desc = "Step Into" })
 vim.keymap.set("n", "<leader>d<", ":DapStepOut<CR>", { desc = "Step Out" })
-vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { desc = "(DBG) Start/Continue" })
-vim.keymap.set("n", "<F6>", ":DapTerminate<CR>", { desc = "(DBG) Stop" })
-vim.keymap.set("n", "<F9>", ":DapStepOver<CR>", { desc = "(DBG) Step Over" })
-vim.keymap.set("n", "<F7>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
-vim.keymap.set("n", "<F8>", ":DapStepOut<CR>", { desc = "(DBG) Step Out" })
-vim.keymap.set({ "n", "v" }, "<F11>", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
-  { desc = "Eval Cursor" })
 vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
   { desc = "Eval Cursor" })
+vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { desc = "(DBG) Start/Continue" })
+vim.keymap.set("n", "<F6>", ":DapStepOut<CR>", { desc = "(DBG) Step Out" })
+vim.keymap.set("n", "<F7>", ":DapStepOver<CR>", { desc = "(DBG) Step Over" })
+vim.keymap.set("n", "<F8>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
+vim.keymap.set({ "n", "v" }, "<F9>", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
+  { desc = "Eval Cursor" })
+vim.keymap.set("n", "<F10>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
 
 vim.keymap.set("n", "<leader>ta", ":lua require('neotest').run.attach()<CR>", {desc = "Attach"})
 vim.keymap.set("n", "<leader>tx", ":lua require('neotest').run.stop()<CR>", {desc = "Terminate"})
@@ -209,3 +221,9 @@ vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc =
 
 vim.keymap.set("n", "<leader>i", ":Telescope find_template<CR>", {desc = "Insert template"})
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", {desc = "Hot Reload"})
+
+vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat Toggle<CR>", {desc = "AI Chat"})
+vim.keymap.set("n", "<leader>aa", ":CodeCompanionActions<CR>", {desc = "AI Menu"})
+vim.keymap.set("n", "<leader>ag", ":CodeCompanion #{buffer} ", {desc = "AI gen"})
+vim.keymap.set("n", "<leader>aG", ":CodeCompanion #{buffers} ", {desc = "AI gen (wide-context)"})
+vim.keymap.set("v", "<leader>ag", ":CodeCompanion #{selection} ", {desc = "AI Inline Inquiry"})
