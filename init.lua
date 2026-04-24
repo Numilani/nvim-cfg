@@ -38,6 +38,7 @@ vim.opt.foldcolumn = "auto"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
+vim.opt.background = "dark"
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
@@ -84,7 +85,8 @@ vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl
 vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
 require("config.lazy")
-vim.cmd("colorscheme moonfly")
+-- vim.cmd("colorscheme PaperColor")
+vim.cmd.colorscheme("molokai")
 
 -- skeletons
 vim.api.nvim_create_autocmd("BufNewFile", {
