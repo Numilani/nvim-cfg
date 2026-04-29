@@ -118,11 +118,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- TEMPLATE
--- vim.keymap.set("n", "<leader>", "", { desc = ""})
-
--- Keymaps from Other Places
--- (n) <leader>j - flash (acejump)
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
@@ -130,55 +125,53 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set("n", "<leader>w", function() require('mini.bufremove').delete() end, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>W", function() require('mini.bufremove').delete(0, true) end, { desc = "Force Close Buffer" })
 vim.keymap.set("n", "<leader>e", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
-
--- Buffer/Window commands
 vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<leader><Tab>", "<C-w>w", { desc = "Next Window" })
 vim.keymap.set("n", "<leader><S-Tab>", "<C-w>W", { desc = "Prev Window" })
-vim.keymap.set("n", "<F3>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
-
 vim.keymap.set("n", "<C-Down>", "<C-w>-", { desc = "+ Win Height" })
 vim.keymap.set("n", "<C-Up>", "<C-w>+", { desc = "- Win Height" })
 vim.keymap.set("n", "<C-Left>", "<C-w><", { desc = "+ Win Width" })
 vim.keymap.set("n", "<C-Right>", "<C-w>>", { desc = "- Win Width" })
+-- vim.keymap.set("n", "<F3>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
+vim.keymap.set("n", "<C-t>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
 
-vim.keymap.set('n', '<C-t>', "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
-vim.keymap.set('t', '<C-t>', "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+-- vim.keymap.set('n', '<C-t>', "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+-- vim.keymap.set('t', '<C-t>', "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+vim.keymap.set('n', '<F3>', "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+vim.keymap.set('t', '<F3>', "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+
+-- Action commands
+-- vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
+vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
-vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>",
-  { desc = "Buffer Diagnostics" })
-vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
+vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>",  { desc = "Buffer Diagnostics" })
 vim.keymap.set({ "n", "i" }, "<C-s>", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
-vim.keymap.set("n", "<leader>cv", function() vim.lsp.buf.hover() end, { desc = "View Value under Cursor" })
 vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cq", ":lua require'telescope.builtin'.quickfix()<CR>", { desc = "Show quickfix" })
-vim.keymap.set("n", "<leader>cx",
-  function()
-    for _, client in ipairs(vim.lsp.buf_get_clients()) do
-      require('workspace-diagnostics')
-          .populate_workspace_diagnostics(client, 0)
-    end
-  end, { desc = "Populate diagnostics" })
+vim.keymap.set("n", "<leader>cs", ":lua require'telescope.builtin'.lsp_document_symbols()<CR>",
+  { desc = "View Doc Symbols" })
+-- vim.keymap.set("n", "<leader>cx",
+--   function()
+--     for _, client in ipairs(vim.lsp.buf_get_clients()) do
+--       require('workspace-diagnostics')
+--           .populate_workspace_diagnostics(client, 0)
+--     end
+--   end, { desc = "Populate diagnostics" })
 
 -- (n) <leader>cf - format code
 -- vim.keymap.set("n", "<leader>cf", ":FzfLua quickfix<CR>", {desc = "Quickfix List"})
--- vim.keymap.set("n")
 
--- Goto commands
-vim.keymap.set("n", "<leader>gr", ":lua require'telescope.builtin'.lsp_references()<CR>", { desc = "Goto References" })
-vim.keymap.set("n", "<leader>gd", ":lua require'telescope.builtin'.lsp_definitions()<CR>", { desc = "Goto Definitions" })
-vim.keymap.set("n", "<leader>gi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>",
+-- Goto / "View Under Cursor" commands
+vim.keymap.set("n", "<leader>vv", function() vim.lsp.buf.hover() end, { desc = "View Value under Cursor" })
+vim.keymap.set("n", "<leader>vr", ":lua require'telescope.builtin'.lsp_references()<CR>", { desc = "Goto References" })
+vim.keymap.set("n", "<leader>vd", ":lua require'telescope.builtin'.lsp_definitions()<CR>", { desc = "Goto Definitions" })
+vim.keymap.set("n", "<leader>vi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>",
   { desc = "Goto Incoming Calls" })
-vim.keymap.set("n", "<leader>go", ":lua require'telescope.builtin'.lsp_outgoing_calls()<CR>",
+vim.keymap.set("n", "<leader>vo", ":lua require'telescope.builtin'.lsp_outgoing_calls()<CR>",
   { desc = "Goto Outgoing calls" })
-vim.keymap.set("n", "<leader>gs", ":lua require'telescope.builtin'.lsp_document_symbols()<CR>",
-  { desc = "Goto Doc Symbols" })
-vim.keymap.set("n", "<leader>gS", ":lua require'telescope.builtin'.lsp_workspace_symbols()<CR>",
-  { desc = "Goto ALL Symbols" })
-
 
 -- Find commands
 vim.keymap.set("n", "<leader>ff", ':lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>',
@@ -190,7 +183,6 @@ vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 
 -- Debug commands
--- vim.keymap.set("n", "<leader>du", ":lua require'dapui'.toggle()<CR>", { desc = "toggle debug UI" })
 vim.keymap.set("n", "<leader>du", ":DapViewToggle<CR>", { desc = "toggle debug UI" })
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
 vim.keymap.set("n", "<leader>ds", ":lua require'telescope'.extensions.dap.configurations()<CR>", { desc = "Start Debug" })
@@ -206,8 +198,9 @@ vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { desc = "(DBG) Start/Continue" 
 vim.keymap.set("n", "<F6>", ":DapStepOut<CR>", { desc = "(DBG) Step Out" })
 vim.keymap.set("n", "<F7>", ":DapStepOver<CR>", { desc = "(DBG) Step Over" })
 vim.keymap.set("n", "<F8>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
-vim.keymap.set({ "n", "v" }, "<F9>", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
-  { desc = "Eval Cursor" })
+vim.keymap.set("n", "<F9>", ":DapViewToggle<CR>", { desc = "(DBG) Toggle Debug UI" })
+-- vim.keymap.set({ "n", "v" }, "<F9>", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
+--   { desc = "Eval Cursor" })
 vim.keymap.set("n", "<F10>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
 
 vim.keymap.set("n", "<leader>ta", ":lua require('neotest').run.attach()<CR>", {desc = "Attach"})
@@ -221,11 +214,4 @@ vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true
 vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error"})
 vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error"})
 
-vim.keymap.set("n", "<leader>i", ":Telescope find_template<CR>", {desc = "Insert template"})
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", {desc = "Hot Reload"})
-
-vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat Toggle<CR>", {desc = "AI Chat"})
-vim.keymap.set("n", "<leader>aa", ":CodeCompanionActions<CR>", {desc = "AI Menu"})
-vim.keymap.set("n", "<leader>ag", ":CodeCompanion #{buffer} ", {desc = "AI gen"})
-vim.keymap.set("n", "<leader>aG", ":CodeCompanion #{buffers} ", {desc = "AI gen (wide-context)"})
-vim.keymap.set("v", "<leader>ag", ":CodeCompanion #{selection} ", {desc = "AI Inline Inquiry"})

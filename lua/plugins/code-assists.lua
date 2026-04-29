@@ -64,34 +64,34 @@ return {
     cmd = "Trouble",
     keys = {
       {
-        "<leader>cX",
-        "<cmd>Trouble diagnostics toggle<cr>",
-        desc = "All Diagnostics (Trouble)",
-      },
-      {
         "<leader>cD",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Workspace Diagnostics",
+      },
+      {
+        "<leader>cd",
         "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-        desc = "Buffer Diagnostics (Trouble)",
+        desc = "Buffer Diagnostics",
       },
       {
-        "<leader>xs",
+        "<leader>cs",
         "<cmd>Trouble symbols toggle focus=false<cr>",
-        desc = "Symbols (Trouble)",
+        desc = "Class Symbols",
       },
       {
-        "<leader>cL",
+        "<leader>ci",
         "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "LSP Definitions / references / ... (Trouble)",
+        desc = "Info Under Cursor",
       },
       {
-        "<leader>cL",
+        "<leader>cl",
         "<cmd>Trouble loclist toggle<cr>",
-        desc = "Location List (Trouble)",
+        desc = "LocList",
       },
       {
-        "<leader>cQ",
+        "<leader>cq",
         "<cmd>Trouble qflist toggle<cr>",
-        desc = "Quickfix List (Trouble)",
+        desc = "QFList",
       },
     },
   },
