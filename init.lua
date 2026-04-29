@@ -124,7 +124,8 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 -- UI commands
 vim.keymap.set("n", "<leader>w", function() require('mini.bufremove').delete() end, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>W", function() require('mini.bufremove').delete(0, true) end, { desc = "Force Close Buffer" })
-vim.keymap.set("n", "<leader>e", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
+-- vim.keymap.set("n", "<leader>e", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
+vim.keymap.set("n", "<F2>", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
 vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<leader><Tab>", "<C-w>w", { desc = "Next Window" })
@@ -147,12 +148,10 @@ vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
-vim.keymap.set("n", "<leader>cd", ":lua require'telescope.builtin'.diagnostics({bufnr=0})<CR>",  { desc = "Buffer Diagnostics" })
-vim.keymap.set({ "n", "i" }, "<C-s>", function() vim.lsp.buf.signature_help() end, { desc = "Signature Help" })
+vim.keymap.set({ "n", "i" }, "<C-p>", function() vim.lsp.buf.signature_help() end, { desc = "Parameter Info" })
 vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.rename() end, { desc = "Rename..." })
-vim.keymap.set("n", "<leader>cq", ":lua require'telescope.builtin'.quickfix()<CR>", { desc = "Show quickfix" })
-vim.keymap.set("n", "<leader>cs", ":lua require'telescope.builtin'.lsp_document_symbols()<CR>",
-  { desc = "View Doc Symbols" })
+vim.keymap.set("n", "<leader>cv", function() vim.lsp.buf.hover() end, { desc = "Hover Info" })
+
 -- vim.keymap.set("n", "<leader>cx",
 --   function()
 --     for _, client in ipairs(vim.lsp.buf_get_clients()) do
@@ -161,17 +160,7 @@ vim.keymap.set("n", "<leader>cs", ":lua require'telescope.builtin'.lsp_document_
 --     end
 --   end, { desc = "Populate diagnostics" })
 
--- (n) <leader>cf - format code
--- vim.keymap.set("n", "<leader>cf", ":FzfLua quickfix<CR>", {desc = "Quickfix List"})
 
--- Goto / "View Under Cursor" commands
-vim.keymap.set("n", "<leader>vv", function() vim.lsp.buf.hover() end, { desc = "View Value under Cursor" })
-vim.keymap.set("n", "<leader>vr", ":lua require'telescope.builtin'.lsp_references()<CR>", { desc = "Goto References" })
-vim.keymap.set("n", "<leader>vd", ":lua require'telescope.builtin'.lsp_definitions()<CR>", { desc = "Goto Definitions" })
-vim.keymap.set("n", "<leader>vi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>",
-  { desc = "Goto Incoming Calls" })
-vim.keymap.set("n", "<leader>vo", ":lua require'telescope.builtin'.lsp_outgoing_calls()<CR>",
-  { desc = "Goto Outgoing calls" })
 
 -- Find commands
 vim.keymap.set("n", "<leader>ff", ':lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>',
@@ -183,25 +172,23 @@ vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 
 -- Debug commands
-vim.keymap.set("n", "<leader>du", ":DapViewToggle<CR>", { desc = "toggle debug UI" })
+-- vim.keymap.set("n", "<leader>du", ":DapViewToggle<CR>", { desc = "toggle debug UI" })
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
 vim.keymap.set("n", "<leader>ds", ":lua require'telescope'.extensions.dap.configurations()<CR>", { desc = "Start Debug" })
-vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { desc = "Breakpoint" })
-vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { desc = "Start/Continue" })
+-- vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { desc = "Breakpoint" })
+-- vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { desc = "Start/Continue" })
 vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { desc = "Stop" })
-vim.keymap.set("n", "<leader>do", ":DapStepOver<CR>", { desc = "Step Over" })
-vim.keymap.set("n", "<leader>d>", ":DapStepInto<CR>", { desc = "Step Into" })
-vim.keymap.set("n", "<leader>d<", ":DapStepOut<CR>", { desc = "Step Out" })
+-- vim.keymap.set("n", "<leader>do", ":DapStepOver<CR>", { desc = "Step Over" })
+-- vim.keymap.set("n", "<leader>d>", ":DapStepInto<CR>", { desc = "Step Into" })
+-- vim.keymap.set("n", "<leader>d<", ":DapStepOut<CR>", { desc = "Step Out" })
 vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
   { desc = "Eval Cursor" })
 vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { desc = "(DBG) Start/Continue" })
 vim.keymap.set("n", "<F6>", ":DapStepOut<CR>", { desc = "(DBG) Step Out" })
 vim.keymap.set("n", "<F7>", ":DapStepOver<CR>", { desc = "(DBG) Step Over" })
 vim.keymap.set("n", "<F8>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
-vim.keymap.set("n", "<F9>", ":DapViewToggle<CR>", { desc = "(DBG) Toggle Debug UI" })
--- vim.keymap.set({ "n", "v" }, "<F9>", ":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
---   { desc = "Eval Cursor" })
-vim.keymap.set("n", "<F10>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
+vim.keymap.set("n", "<F9>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
+vim.keymap.set("n", "<F10>", ":DapViewToggle<CR>", { desc = "(DBG) Toggle Debug UI" })
 
 vim.keymap.set("n", "<leader>ta", ":lua require('neotest').run.attach()<CR>", {desc = "Attach"})
 vim.keymap.set("n", "<leader>tx", ":lua require('neotest').run.stop()<CR>", {desc = "Terminate"})
@@ -209,7 +196,6 @@ vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>"
 vim.keymap.set("n", "<leader>to", ":lua require('neotest').output_panel.toggle()<CR>", {desc = "Toggle output panel"})
 vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", {desc = "Run nearest test"})
 vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true})<CR>", {desc = "Run test suite"})
-
 
 vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error"})
 vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error"})

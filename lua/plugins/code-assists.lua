@@ -79,9 +79,9 @@ return {
         desc = "Class Symbols",
       },
       {
-        "<leader>ci",
+        "<leader>cu",
         "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "Info Under Cursor",
+        desc = "Find Usages...",
       },
       {
         "<leader>cl",
