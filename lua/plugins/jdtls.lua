@@ -91,11 +91,14 @@ return {
 			end
 			local function attach_jdtls()
 				local fname = vim.api.nvim_buf_get_name(0)
+				if fname == "" then return end
+				local root_dir = opts.root_dir(fname)
+				if not root_dir then return end
 
 				-- Configuration can be augmented and overridden by opts.jdtls
 				local config = {
 					cmd = opts.full_cmd(opts),
-					root_dir = opts.root_dir(fname),
+					root_dir = root_dir,
 					init_options = {
 						bundles = bundles,
 					},
@@ -103,6 +106,11 @@ return {
 					-- enable CMP capabilities
 					-- capabilities = require("cmp_nvim_lsp").default_capabilities()
 						-- or nil,
+					commands = {
+						["_java.reloadBundles.command"] = function()
+							return bundles
+						end,
+					},
 				}
 
 				-- Existing server will be reused if the root_dir matches.

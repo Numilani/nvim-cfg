@@ -61,14 +61,7 @@ return {
       		name = "Attach to Remote",
       		hostName = "127.0.0.1",
       		port = 5005,
-      	},
-      	{
-      		type = "java",
-      		request = "launch",
-      		name = "Launch Project",
-      		-- mainClass = function() return vim.fn.input("Main Class: ", mainClass) end
-      		classPaths = {}, -- jdtls should auto-populate
-      		modulePaths = {}, -- jdtls should auto-populate
+      		hotCodeReplace = "auto",
       	},
       }
       -- dap.configurations.javascript = {
