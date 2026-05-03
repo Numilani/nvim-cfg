@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.clipboard = "osc52"
+vim.opt.backspace = {"indent", "eol", "start"}
 
 function no_paste(reg)
 	return function(lines)
@@ -165,6 +166,9 @@ end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
+
+-- AI command
+vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
 
 -- vim.keymap.set("n", "<leader>cx",
 --   function()
