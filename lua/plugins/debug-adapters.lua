@@ -188,6 +188,12 @@ return {
     end,
   },
   {
+    'mfussenegger/nvim-dap-python',
+    config = function()
+      require('dap-python').setup("python3")
+    end
+  },
+  {
     "igorlfs/nvim-dap-view",
     lazy = false,
   },

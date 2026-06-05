@@ -25,7 +25,7 @@ return {
 					lua = { "stylua" },
 					cs = { "clang-format" },
 					java = { "google-java-format" },
-					python = { "blue" },
+					python = { "black" },
 					-- razor = { "injected", lsp_format = "never" },
 					html = {"htmlbeautifier"},
 					-- html = { "prettierd" },
