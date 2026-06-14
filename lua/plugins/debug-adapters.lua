@@ -1,6 +1,7 @@
 return {
   {
     "mfussenegger/nvim-dap",
+    lazy = false,
     dependencies = {
       "williamboman/mason.nvim",
       opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
@@ -49,7 +50,7 @@ return {
           name = "Launch File",
           program = "${file}",
           pythonPath = venv_path
-              and ((vim.fn.has("win32") == 1 and venv_path .. "/Scripts/python") or venv_path .. "/bin/python")
+              and ((vim.fn.has("win32") == 1 and venv_path .. "/Scripts/python") or venv_path .. "/usr/bin/python")
               or nil,
           console = "integratedTerminal",
         },
@@ -190,7 +191,7 @@ return {
   {
     'mfussenegger/nvim-dap-python',
     config = function()
-      require('dap-python').setup("python3")
+      require('dap-python').setup("/usr/bin/python")
     end
   },
   {

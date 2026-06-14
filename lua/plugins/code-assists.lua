@@ -12,15 +12,28 @@ return {
       },
       completion = {
         menu = {
-          auto_show = false,
+          draw = {
+            columns = {
+              {"label", "label_description", gap = 1},
+              {"kind_icon", "kind"},
+            },
+          },
+          auto_show = true,
         },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
         },
       },
+      fuzzy = {
+        sorts = {
+          'score',
+          'sort_text',
+          'kind'
+        }
+      },
       signature = {
-        enabled = false,
+        enabled = true,
       },
     },
   },

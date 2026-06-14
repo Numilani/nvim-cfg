@@ -1,13 +1,20 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.clipboard = "osc52"
-vim.opt.backspace = {"indent", "eol", "start"}
 
-function no_paste(reg)
-	return function(lines)
-		-- Do nothing! We can't paste with OSC52
-	end
-end
+vim.opt.backspace = {"indent", "eol", "start"}
+vim.keymap.set('i', '<BS>', function()
+  local col = vim.fn.col('.') - 1
+  local line = vim.fn.getline('.')
+  local before_cursor = line:sub(1, col)
+  
+  if before_cursor:match('^%s+$') then
+    -- Only whitespace before cursor: delete it all and join to previous line
+    return '<C-u><BS>'
+  else
+    return '<BS>'
+  end
+end, { expr = true, noremap = true })
 
 vim.g.clipboard = {
 	name = "OSC 52",
@@ -16,8 +23,8 @@ vim.g.clipboard = {
 		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
 	},
 	paste = {
-		["+"] = no_paste("+"), -- Pasting disabled
-		["*"] = no_paste("*"), -- Pasting disabled
+		["+"] = function() end, -- Pasting disabled
+		["*"] = function() end, -- Pasting disabled
 	},
 }
 
@@ -166,6 +173,7 @@ end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
+
 
 -- AI command
 vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
