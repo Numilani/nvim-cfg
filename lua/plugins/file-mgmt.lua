@@ -72,19 +72,21 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = 'main',
+    main = 'nvim-treesitter',
     build = ":TSUpdate",
-    config = function()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "html", "javascript", "typescript", "tsx", "java", "c_sharp", "python" },
-        highlight = { enable = true },
-        indent = { enable = true },
+    init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          pcall(vim.treesitter.start)
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
       })
     end,
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = 'main',
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
   {
