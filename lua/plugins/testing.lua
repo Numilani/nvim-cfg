@@ -21,13 +21,15 @@ return {
           adapters[#adapters+1] = require("neotest-java")()
         elseif ft == "cs" then
           adapters[#adapters+1] = require("neotest-vstest")()
+        elseif ft == "js" or ft == "ts" or ft == "jsx" or ft == "tsx" or ft == "javascriptreact" or ft == "typescriptreact" then
+          adapters[#adapters+1] = require("neotest-vitest")()
         end
 
         require("neotest").setup({ adapters = adapters })
       end
 
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "python", "java", "cs" },
+        pattern = { "python", "java", "cs", "js", "ts", "jsx", "tsx", "javascriptreact", "typescriptreact"},
         callback = function(args)
           setup_neotest_for_ft(args.match)
         end,
@@ -59,5 +61,9 @@ return {
     "Nsidorenco/neotest-vstest",
     ft = { "cs" },
   },
+  {
+    "marilari88/neotest-vitest",
+    ft = { "js", "ts", "jsx", "tsx", "javascriptreact", "typescriptreact"}
+  }
 }
 

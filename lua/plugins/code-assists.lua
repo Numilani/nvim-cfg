@@ -47,24 +47,24 @@ return {
     "stevearc/overseer.nvim",
     config = function()
       require('overseer').setup()
-      local overseer = require("overseer")
-      local template_dir = vim.fn.stdpath("config") .. "/lua/overseer/template"
-
+      -- local overseer = require("overseer")
+      -- local template_dir = vim.fn.stdpath("config") .. "/lua/overseer/template"
+      --
       -- Recursively find all Lua files
-      local files = vim.fn.glob(template_dir .. "/**/*.lua", false, true)
+      -- local files = vim.fn.glob(template_dir .. "/**/*.lua", false, true)
 
-      for _, file in ipairs(files) do
-        local rel_path = file:sub(#template_dir + 2, -5) -- strip base dir + slash and ".lua"
-        local mod_name = "overseer.template." .. rel_path:gsub("/", ".")
-
-
-        local ok, template = pcall(require, mod_name)
-        if ok and type(template) == "table" then
-          overseer.register_template(template)
-        else
-          vim.notify("Failed to load Overseer template: " .. mod_name, vim.log.levels.ERROR)
-        end
-      end
+      -- for _, file in ipairs(files) do
+      --   local rel_path = file:sub(#template_dir + 2, -5) -- strip base dir + slash and ".lua"
+      --   local mod_name = "overseer.template." .. rel_path:gsub("/", ".")
+      --
+      --
+      --   local ok, template = pcall(require, mod_name)
+      --   if ok and type(template) == "table" then
+      --     overseer.register_template(template)
+      --   else
+      --     vim.notify("Failed to load Overseer template: " .. mod_name, vim.log.levels.ERROR)
+      --   end
+      -- end
     end,
   },
   {

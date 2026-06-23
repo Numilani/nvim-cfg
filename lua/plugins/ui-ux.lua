@@ -57,6 +57,7 @@ return {
           view = "mini",
           view_error = "notify",
           view_warn = "notify",
+          view_search = "virtualtext",
         },
         lsp = {
           progress = {

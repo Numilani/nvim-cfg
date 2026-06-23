@@ -85,11 +85,6 @@ return {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    branch = 'main',
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-  },
-  {
     "windwp/nvim-ts-autotag",
     config = function()
       require("nvim-ts-autotag").setup({

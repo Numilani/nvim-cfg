@@ -56,7 +56,16 @@ vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 
 -- with lsp_lines we don't need nvim's vtext
-vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config(
+  {
+    virtual_text = false,
+    underline = {
+      severity = {
+        min = vim.diagnostic.severity.WARN
+      }
+    },
+  }
+)
 
 -- update cwd when opening folder from cmdline
 
@@ -132,6 +141,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+vim.keymap.set('n', '<Esc>', function()
+  vim.cmd('nohlsearch')
+  require('noice').cmd('dismiss') -- clears any stuck noice UI elements
+end, { silent = true })
 
 -- UI commands
 vim.keymap.set("n", "<leader>w", function()
@@ -161,6 +174,7 @@ vim.keymap.set("t", "<F3>", "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", {
 -- Action commands
 -- vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
 vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
+vim.keymap.set("n", "<C-F4>", ":OverseerToggle<CR>", {desc = "Show Running Tasks"})
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
@@ -202,18 +216,7 @@ vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<
 -- Debug commands
 -- vim.keymap.set("n", "<leader>du", ":DapViewToggle<CR>", { desc = "toggle debug UI" })
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
-vim.keymap.set(
-	"n",
-	"<leader>ds",
-	":lua require'telescope'.extensions.dap.configurations()<CR>",
-	{ desc = "Start Debug" }
-)
--- vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { desc = "Breakpoint" })
--- vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { desc = "Start/Continue" })
 vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { desc = "Stop" })
--- vim.keymap.set("n", "<leader>do", ":DapStepOver<CR>", { desc = "Step Over" })
--- vim.keymap.set("n", "<leader>d>", ":DapStepInto<CR>", { desc = "Step Into" })
--- vim.keymap.set("n", "<leader>d<", ":DapStepOut<CR>", { desc = "Step Out" })
 vim.keymap.set(
 	{ "n", "v" },
 	"<leader>de",
@@ -238,6 +241,7 @@ vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc =
 vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error" })
 
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
+
 
 -- custom textobject motions
 
@@ -272,7 +276,7 @@ end)
 vim.keymap.set({ "n", "x", "o" }, "]c", function()
 	require("nvim-treesitter-textobjects.move").goto_next_start("@local.scope", "locals")
 end)
-vim.keymap.set({ "n", "x", "o" }, "]c", function()
+vim.keymap.set({ "n", "x", "o" }, "[c", function()
 	require("nvim-treesitter-textobjects.move").goto_previous_start("@local.scope", "locals")
 end)
 
