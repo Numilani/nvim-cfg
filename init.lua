@@ -174,7 +174,7 @@ vim.keymap.set("t", "<F3>", "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", {
 -- Action commands
 -- vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
 vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
-vim.keymap.set("n", "<C-F4>", ":OverseerToggle<CR>", {desc = "Show Running Tasks"})
+vim.keymap.set("n", "<F16>", ":OverseerToggle<CR>", {desc = "Show Running Tasks"})
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
