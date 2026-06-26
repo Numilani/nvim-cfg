@@ -2,18 +2,18 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.clipboard = "osc52"
 
-vim.opt.backspace = {"indent", "eol", "start"}
-vim.keymap.set('i', '<BS>', function()
-  local col = vim.fn.col('.') - 1
-  local line = vim.fn.getline('.')
-  local before_cursor = line:sub(1, col)
-  
-  if before_cursor:match('^%s+$') then
-    -- Only whitespace before cursor: delete it all and join to previous line
-    return '<C-u><BS>'
-  else
-    return '<BS>'
-  end
+vim.opt.backspace = { "indent", "eol", "start" }
+vim.keymap.set("i", "<BS>", function()
+	local col = vim.fn.col(".") - 1
+	local line = vim.fn.getline(".")
+	local before_cursor = line:sub(1, col)
+
+	if before_cursor:match("^%s+$") then
+		-- Only whitespace before cursor: delete it all and join to previous line
+		return "<C-u><BS>"
+	else
+		return "<BS>"
+	end
 end, { expr = true, noremap = true })
 
 vim.g.clipboard = {
@@ -56,16 +56,14 @@ vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 
 -- with lsp_lines we don't need nvim's vtext
-vim.diagnostic.config(
-  {
-    virtual_text = false,
-    underline = {
-      severity = {
-        min = vim.diagnostic.severity.WARN
-      }
-    },
-  }
-)
+vim.diagnostic.config({
+	virtual_text = false,
+	underline = {
+		severity = {
+			min = vim.diagnostic.severity.WARN,
+		},
+	},
+})
 
 -- update cwd when opening folder from cmdline
 
@@ -141,9 +139,9 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
-vim.keymap.set('n', '<Esc>', function()
-  vim.cmd('nohlsearch')
-  require('noice').cmd('dismiss') -- clears any stuck noice UI elements
+vim.keymap.set("n", "<Esc>", function()
+	vim.cmd("nohlsearch")
+	require("noice").cmd("dismiss") -- clears any stuck noice UI elements
 end, { silent = true })
 
 -- UI commands
@@ -174,7 +172,7 @@ vim.keymap.set("t", "<F3>", "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", {
 -- Action commands
 -- vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
 vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
-vim.keymap.set("n", "<F16>", ":OverseerToggle<CR>", {desc = "Show Running Tasks"})
+vim.keymap.set("n", "<F16>", ":OverseerToggle<CR>", { desc = "Show Running Tasks" })
 
 -- Code commands
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
@@ -187,7 +185,6 @@ end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
-
 
 -- AI command
 vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
@@ -242,7 +239,6 @@ vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc =
 
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
 
-
 -- custom textobject motions
 
 -- selection motions (defaults)
@@ -291,4 +287,3 @@ end)
 -- vim.keymap.set({ "n", "x", "o" }, "[M", function()
 -- 	require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects")
 -- end)
-
