@@ -4,24 +4,24 @@ return {
     lazy = false,
     dependencies = {
       "williamboman/mason.nvim",
-      opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
+      -- opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
     },
     config = function()
       local dap = require("dap")
-      dap.adapters.python = {
-        type = "executable",
-        command = vim.fn.exepath("debugpy-adapter"),
-      }
+      -- dap.adapters.python = {
+      --   type = "executable",
+      --   command = vim.fn.exepath("debugpy-adapter"),
+      -- }
       dap.adapters.coreclr = {
         type = "executable",
         command = vim.fn.exepath("netcoredbg"),
         args = { "--interpreter=vscode" },
       }
-      dap.adapters.node2 = {
-        type = 'executable',
-        command = 'node',
-        args = { os.getenv('HOME') .. '/.local/share/nvim/debug_adapters/vscode-node-debug2/out/src/nodeDebug.js' },
-      }
+      -- dap.adapters.node2 = {
+      --   type = 'executable',
+      --   command = 'node',
+      --   args = { os.getenv('XDG_DATA_HOME') .. '/debug_adapters/vscode-node-debug2/out/src/nodeDebug.js' },
+      -- }
       dap.adapters["pwa-node"] = {
         type = "server",
         host = "localhost",
@@ -29,7 +29,7 @@ return {
         executable = {
           command = "bun",
           args = {
-            os.getenv('HOME') .. "/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+            "C:/Users/AppData/Local/nvim-data" .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
             "${port}"
           },
         }
@@ -43,28 +43,28 @@ return {
         },
       }
 
-      dap.configurations.python = {
-        {
-          type = "python",
-          request = "launch",
-          name = "Launch File",
-          program = "${file}",
-          pythonPath = venv_path
-              and ((vim.fn.has("win32") == 1 and venv_path .. "/Scripts/python") or venv_path .. "/usr/bin/python")
-              or nil,
-          console = "integratedTerminal",
-        },
-      }
-      dap.configurations.java = {
-      	{
-      		type = "java",
-      		request = "attach",
-      		name = "Attach to Remote",
-      		hostName = "127.0.0.1",
-      		port = 5005,
-      		hotCodeReplace = "auto",
-      	},
-      }
+      -- dap.configurations.python = {
+      --   {
+      --     type = "python",
+      --     request = "launch",
+      --     name = "Launch File",
+      --     program = "${file}",
+      --     pythonPath = venv_path
+      --         and ((vim.fn.has("win32") == 1 and venv_path .. "/Scripts/python") or venv_path .. "/usr/bin/python")
+      --         or nil,
+      --     console = "integratedTerminal",
+      --   },
+      -- }
+      -- dap.configurations.java = {
+      -- 	{
+      -- 		type = "java",
+      -- 		request = "attach",
+      -- 		name = "Attach to Remote",
+      -- 		hostName = "127.0.0.1",
+      -- 		port = 5005,
+      -- 		hotCodeReplace = "auto",
+      -- 	},
+      -- }
       -- dap.configurations.javascript = {
       --   {
       --     type = "node2",

@@ -27,7 +27,7 @@ return {
 					java = { "google-java-format" },
 					python = { "black" },
 					-- razor = { "injected", lsp_format = "never" },
-					html = {"htmlbeautifier"},
+					-- html = {"htmlbeautifier"},
 					-- html = { "prettierd" },
 					-- xml = {"prettier", "prettierd"},
 					javascript = { "js_beautify" },

@@ -75,6 +75,12 @@ return {
     branch = 'main',
     main = 'nvim-treesitter',
     build = ":TSUpdate",
+    lazy = false,
+    config = function()
+    require("nvim-treesitter").setup({
+install_dir = vim.fn.stdpath('data') .. "/site"
+})
+end,
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
         callback = function()
@@ -118,7 +124,7 @@ return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'nvim-telescope/telescope-dap.nvim'}
     },
@@ -142,7 +148,7 @@ return {
           }
         }
       })
-      require('telescope').load_extension("fzf")
+      -- require('telescope').load_extension("fzf")
       require('telescope').load_extension("ui-select")
       require('telescope').load_extension("dap")
     end
