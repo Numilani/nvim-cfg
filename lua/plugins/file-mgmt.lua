@@ -75,17 +75,26 @@ return {
     branch = 'main',
     main = 'nvim-treesitter',
     build = ":TSUpdate",
+    lazy = false,
+    config = function()
+      require('nvim-treesitter').setup({
+        install_dir = vim.fn.stdpath("data") .. "/site",
+        indent = {
+          enable = true,
+        }
+      })
+    end,
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
         callback = function()
           pcall(vim.treesitter.start)
-          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
       })
     end,
   },
   {
     "windwp/nvim-ts-autotag",
+    lazy = false,
     config = function()
       require("nvim-ts-autotag").setup({
         opts = {
@@ -93,27 +102,13 @@ return {
           enable_close = true,
           enable_rename = true,
           filetypes = {"html", "xml", "js", "jsx", "typescript", "ts", "tsx", "javascriptreact", "typescriptreact"}
-        }
+        },
+        aliases = {
+          ["razor"] = "html",
+        },
       })
     end,
   },
-  -- {
-  -- 	"ibhagwan/fzf-lua",
-  -- 	dependencies = {
-  -- 		"nvim-tree/nvim-web-devicons",
-  -- 	},
-  -- 	config = function()
-  -- 		require("fzf-lua").setup({
-  -- 			winopts = {
-  -- 				preview = {
-  -- 					vertical = "down:30%",
-  -- 					layout = "vertical"
-  -- 				}
-  -- 			}
-  -- 		})
-  -- 		require("fzf-lua").register_ui_select()
-  -- 	end,
-  -- },
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {

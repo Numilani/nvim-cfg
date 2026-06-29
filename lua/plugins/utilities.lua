@@ -19,13 +19,11 @@ return {
 		"echasnovski/mini.nvim",
 		version = false,
 		config = function(_, opts)
-			-- require("mini.ai").setup()
 			require("mini.pairs").setup()
 			require("mini.surround").setup()
 			require("mini.cursorword").setup()
 			require("mini.basics").setup()
       require("mini.bufremove").setup()
-			-- require("mini.move").setup()
 		end,
 	},
 	-- which-key - a keystroke helper
@@ -53,12 +51,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	--   "akinsho/toggleterm.nvim", config = true
-	-- },
-	-- {
-	-- 	"tpope/vim-sleuth",
-	-- },
 	{
 		"numToStr/FTerm.nvim",
 		config = true,

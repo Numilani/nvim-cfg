@@ -1,32 +1,8 @@
+-- 
+-- V I M    O P T I O N S
+--
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-vim.g.clipboard = "osc52"
-
-vim.opt.backspace = {"indent", "eol", "start"}
-vim.keymap.set('i', '<BS>', function()
-  local col = vim.fn.col('.') - 1
-  local line = vim.fn.getline('.')
-  local before_cursor = line:sub(1, col)
-  
-  if before_cursor:match('^%s+$') then
-    -- Only whitespace before cursor: delete it all and join to previous line
-    return '<C-u><BS>'
-  else
-    return '<BS>'
-  end
-end, { expr = true, noremap = true })
-
-vim.g.clipboard = {
-	name = "OSC 52",
-	copy = {
-		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-	},
-	paste = {
-		["+"] = function() end, -- Pasting disabled
-		["*"] = function() end, -- Pasting disabled
-	},
-}
 
 vim.opt.termguicolors = true
 vim.opt.nu = true
@@ -44,7 +20,7 @@ vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldcolumn = "auto"
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 vim.opt.background = "dark"
 
@@ -55,20 +31,35 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 
--- with lsp_lines we don't need nvim's vtext
-vim.diagnostic.config(
-  {
-    virtual_text = false,
-    underline = {
-      severity = {
-        min = vim.diagnostic.severity.WARN
-      }
-    },
-  }
-)
+-- allow copying to system clipboard, even over SSH
+vim.g.clipboard = "osc52"
+vim.g.clipboard = {
+	name = "OSC 52",
+	copy = {
+		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+	},
+	paste = {
+		["+"] = function() end, -- Pasting disabled
+		["*"] = function() end, -- Pasting disabled
+	},
+}
+
+-- enable "super backspace"
+vim.opt.backspace = { "indent", "eol", "start" }
+vim.keymap.set("i", "<BS>", function()
+	local col = vim.fn.col(".") - 1
+	local line = vim.fn.getline(".")
+	local before_cursor = line:sub(1, col)
+
+	if before_cursor:match("^%s+$") then
+		return "<C-u><BS>"
+	else
+		return "<BS>"
+	end
+end, { expr = true, noremap = true })
 
 -- update cwd when opening folder from cmdline
-
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
 		local path = vim.fn.expand("%:p:h")
@@ -78,14 +69,60 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	end,
 })
 
--- breakpoint colors
+--
+-- !!!!   I N I T   L A Z Y . N V I M   P L U G I N S !!!!
+--                ( also init colorscheme )
+--
 
+require("config.lazy")
+vim.cmd.colorscheme("molokai")
+
+
+--
+-- L S P   A N D   D I A G N O S T I C S
+--
+
+-- disable underlines for info/hints 
+vim.diagnostic.config({
+	virtual_text = false,
+	underline = {
+		severity = {
+			min = vim.diagnostic.severity.WARN,
+		},
+	},
+})
+
+-- configure LSPs
+-- vim.lsp.config('roslyn_ls', {
+--   filetypes = { "razor", "cs" },
+-- })
+vim.lsp.config('html', {
+  filetypes = {"html", "razor" }
+})
+-- enable LSPs
+
+vim.lsp.enable('html')
+vim.lsp.enable('jsonls')
+
+-- vim.lsp.enable('roslyn_ls')
+
+vim.lsp.enable('stylua')
+
+vim.lsp.enable('ts_ls')
+
+
+--
+-- D E B U G G I N G
+--
+
+-- set breakpoint colors
 local set_namespace = vim.api.nvim__set_hl_ns or vim.api.nvim_set_hl_ns
 local namespace = vim.api.nvim_create_namespace("dap-hlng")
 vim.api.nvim_set_hl(namespace, "DapBreakpoint", { fg = "#eaeaeb", bg = "#ffffff" })
 vim.api.nvim_set_hl(namespace, "DapLogPoint", { fg = "#eaeaeb", bg = "#ffffff" })
 vim.api.nvim_set_hl(namespace, "DapStopped", { fg = "#eaeaeb", bg = "#ffffff" })
 
+-- set breakpoint icons
 vim.fn.sign_define("DapBreakpoint", {
 	text = "•",
 	texthl = "DapBreakpoint",
@@ -106,10 +143,6 @@ vim.fn.sign_define(
 )
 vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
 
-require("config.lazy")
--- vim.cmd("colorscheme PaperColor")
-vim.cmd.colorscheme("molokai")
-
 -- skeletons
 vim.api.nvim_create_autocmd("BufNewFile", {
 	pattern = { "tasks.json" },
@@ -118,6 +151,7 @@ vim.api.nvim_create_autocmd("BufNewFile", {
 	end,
 })
 
+-- fix debugger window glitchiness
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "dapui_*",
 	callback = function()
@@ -125,6 +159,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.winfixheight = true
 	end,
 })
+
 vim.api.nvim_create_autocmd("BufDelete", {
 	callback = function()
 		require("dapui").close()
@@ -140,43 +175,69 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
+
+--
+-- C U S T O M   K E Y B I N D I N G S
+--
+
+--
+--   TOP-LEVEL KEYBINDS 
+-- 
+
+-- double-tap escape exits terminal cursor lock
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
-vim.keymap.set('n', '<Esc>', function()
-  vim.cmd('nohlsearch')
-  require('noice').cmd('dismiss') -- clears any stuck noice UI elements
+
+-- esc clears any stuck noice elements
+vim.keymap.set("n", "<Esc>", function()
+	vim.cmd("nohlsearch")
+	require("noice").cmd("dismiss")
 end, { silent = true })
 
--- UI commands
+-- navigation and pane sizing
+vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Prev Buffer" })
+
+vim.keymap.set("n", "<leader><Tab>", "<C-w>w", { desc = "Next Window" })
+vim.keymap.set("n", "<leader><S-Tab>", "<C-w>W", { desc = "Prev Window" })
+
+vim.keymap.set("n", "<C-Down>", "<C-w>-", { desc = "+ Win Height" })
+vim.keymap.set("n", "<C-Up>", "<C-w>+", { desc = "- Win Height" })
+vim.keymap.set("n", "<C-Left>", "<C-w><", { desc = "+ Win Width" })
+vim.keymap.set("n", "<C-Right>", "<C-w>>", { desc = "- Win Width" })
+
+vim.keymap.set("n", "<C-t>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
+
+-- Toggle "tool panes"
+vim.keymap.set("n", "<F2>", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
+
+vim.keymap.set("n", "<F3>", "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+vim.keymap.set("t", "<F3>", "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+
+vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
+vim.keymap.set("n", "<F16>", ":OverseerToggle<CR>", { desc = "Show Running Tasks" })
+
+-- better buffer closing keystrokes
 vim.keymap.set("n", "<leader>w", function()
 	require("mini.bufremove").delete()
 end, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>W", function()
 	require("mini.bufremove").delete(0, true)
 end, { desc = "Force Close Buffer" })
--- vim.keymap.set("n", "<leader>e", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
-vim.keymap.set("n", "<F2>", ":Neotree toggle=true<CR>", { desc = "Toggle Filetree" })
-vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next Buffer" })
-vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Prev Buffer" })
-vim.keymap.set("n", "<leader><Tab>", "<C-w>w", { desc = "Next Window" })
-vim.keymap.set("n", "<leader><S-Tab>", "<C-w>W", { desc = "Prev Window" })
-vim.keymap.set("n", "<C-Down>", "<C-w>-", { desc = "+ Win Height" })
-vim.keymap.set("n", "<C-Up>", "<C-w>+", { desc = "- Win Height" })
-vim.keymap.set("n", "<C-Left>", "<C-w><", { desc = "+ Win Width" })
-vim.keymap.set("n", "<C-Right>", "<C-w>>", { desc = "- Win Width" })
--- vim.keymap.set("n", "<F3>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
-vim.keymap.set("n", "<C-t>", ":MaximizerToggle<CR>", { desc = "Fullscreen Current Window" })
 
--- vim.keymap.set('n', '<C-t>', "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
--- vim.keymap.set('t', '<C-t>', "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
-vim.keymap.set("n", "<F3>", "<CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
-vim.keymap.set("t", "<F3>", "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", { desc = "Toggle Terminal" })
+-- Debugger basic commands
+vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { desc = "(DBG) Start/Continue" })
+vim.keymap.set("n", "<F6>", ":DapStepOut<CR>", { desc = "(DBG) Step Out" })
+vim.keymap.set("n", "<F7>", ":DapStepOver<CR>", { desc = "(DBG) Step Over" })
+vim.keymap.set("n", "<F8>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
+vim.keymap.set("n", "<F9>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
+vim.keymap.set("n", "<F10>", ":DapViewToggle<CR>", { desc = "(DBG) Toggle Debug UI" })
 
--- Action commands
--- vim.keymap.set("n", "<leader>ct", ":OverseerRun<CR>", { desc = "Run Task..." })
-vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
-vim.keymap.set("n", "<F16>", ":OverseerToggle<CR>", {desc = "Show Running Tasks"})
 
--- Code commands
+--
+--   MENU KEYBINDS
+--
+
+-- Code Completion 
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
 vim.keymap.set({ "n", "i" }, "<C-p>", function()
 	vim.lsp.buf.signature_help()
@@ -187,7 +248,6 @@ end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
-
 
 -- AI command
 vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
@@ -200,7 +260,7 @@ vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup 
 --     end
 --   end, { desc = "Populate diagnostics" })
 
--- Find commands
+-- Search and replace
 vim.keymap.set(
 	"n",
 	"<leader>ff",
@@ -208,13 +268,12 @@ vim.keymap.set(
 	{ desc = "Find in File" }
 )
 vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', { desc = "Find Everywhere" })
-
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
--- (n) <leader>j - flash (acejump)
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
+-- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
--- Debug commands
--- vim.keymap.set("n", "<leader>du", ":DapViewToggle<CR>", { desc = "toggle debug UI" })
+
+-- Debugger advanced commands
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
 vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { desc = "Stop" })
 vim.keymap.set(
@@ -223,13 +282,9 @@ vim.keymap.set(
 	":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
 	{ desc = "Eval Cursor" }
 )
-vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { desc = "(DBG) Start/Continue" })
-vim.keymap.set("n", "<F6>", ":DapStepOut<CR>", { desc = "(DBG) Step Out" })
-vim.keymap.set("n", "<F7>", ":DapStepOver<CR>", { desc = "(DBG) Step Over" })
-vim.keymap.set("n", "<F8>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
-vim.keymap.set("n", "<F9>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
-vim.keymap.set("n", "<F10>", ":DapViewToggle<CR>", { desc = "(DBG) Toggle Debug UI" })
+vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
 
+-- Neotest Test Runner commands
 vim.keymap.set("n", "<leader>ta", ":lua require('neotest').run.attach()<CR>", { desc = "Attach" })
 vim.keymap.set("n", "<leader>tx", ":lua require('neotest').run.stop()<CR>", { desc = "Terminate" })
 vim.keymap.set("n", "<leader>ts", ":lua require('neotest').summary.toggle()<CR>", { desc = "Toggle summary" })
@@ -237,13 +292,14 @@ vim.keymap.set("n", "<leader>to", ":lua require('neotest').output_panel.toggle()
 vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", { desc = "Run nearest test" })
 vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true})<CR>", { desc = "Run test suite" })
 
+-- Navigation commands
 vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error" })
 vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error" })
 
-vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
 
-
--- custom textobject motions
+--
+--   CUSTOM TEXT OBJECTS
+--
 
 -- selection motions (defaults)
 vim.keymap.set({ "x", "o" }, "af", function()
@@ -291,4 +347,3 @@ end)
 -- vim.keymap.set({ "n", "x", "o" }, "[M", function()
 -- 	require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects")
 -- end)
-

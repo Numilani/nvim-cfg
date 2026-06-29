@@ -28,7 +28,6 @@ return {
 					python = { "black" },
 					-- razor = { "injected", lsp_format = "never" },
 					html = {"htmlbeautifier"},
-					-- html = { "prettierd" },
 					-- xml = {"prettier", "prettierd"},
 					javascript = { "js_beautify" },
 					typescript = { "prettierd" },
@@ -41,10 +40,6 @@ return {
 			require("conform").formatters.injected = {
 				options = {
 					ignore_errors = true,
-					-- lang_to_formatters = {
-					--   c_sharp = { "clang-format" },
-					--   html = { "prettier" }
-					-- }
 				},
 			}
 		end,
