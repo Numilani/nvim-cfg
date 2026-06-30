@@ -23,7 +23,10 @@ return {
 	-- 	end,
 	-- },
   {
-    "seblyng/roslyn.nvim"
+    "seblyng/roslyn.nvim",
+    opts = {
+      filewatching = "roslyn",
+    },
   },
 	-- {
 	-- 	"seblyng/roslyn.nvim",
@@ -86,23 +89,23 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
-	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = {
-			"williamboman/mason.nvim",
-			"neovim/nvim-lspconfig",
-		},
-		config = function(_, opts)
-			require("mason-lspconfig").setup({
-				automatic_enable = {
-					exclude = {
-						"rust_analyzer",
-						-- "jdtls",
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"williamboman/mason-lspconfig.nvim",
+	-- 	dependencies = {
+	-- 		"williamboman/mason.nvim",
+	-- 		"neovim/nvim-lspconfig",
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		require("mason-lspconfig").setup({
+	-- 			automatic_enable = {
+	-- 				exclude = {
+	-- 					"rust_analyzer",
+	-- 					-- "jdtls",
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	-- {
 	-- 	"artemave/workspace-diagnostics.nvim",
 	-- },
