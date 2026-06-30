@@ -3,9 +3,6 @@ return {
     "saghen/blink.cmp",
     dependencies = { "rafamadriz/friendly-snippets" },
     version = "v1.*",
-    opts_extend = {
-      "sources.default",
-    },
     opts = {
       keymap = {
         preset = "super-tab",
@@ -35,6 +32,9 @@ return {
       signature = {
         enabled = true,
       },
+    },
+    opts_extend = {
+      "sources.completion.enabled_providers"
     },
   },
   {

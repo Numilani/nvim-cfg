@@ -1,6 +1,3 @@
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-
 return {
 	{
 		"neovim/nvim-lspconfig",
@@ -25,6 +22,9 @@ return {
 	-- 		vim.lsp.enable("jdtls")
 	-- 	end,
 	-- },
+  {
+    "seblyng/roslyn.nvim"
+  },
 	-- {
 	-- 	"seblyng/roslyn.nvim",
 	--    lazy = false,

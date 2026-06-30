@@ -20,7 +20,7 @@ vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldcolumn = "auto"
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 vim.opt.background = "dark"
 
@@ -94,15 +94,15 @@ vim.diagnostic.config({
 })
 
 -- configure LSPs
-vim.lsp.config('roslyn_ls', {
-  filetypes = { "razor", "cs" },
-})
+-- vim.lsp.config('roslyn_ls', {
+--   filetypes = { "razor", "cs" },
+-- })
 -- enable LSPs
 
 vim.lsp.enable('html')
 vim.lsp.enable('jsonls')
 
-vim.lsp.enable('roslyn_ls')
+-- vim.lsp.enable('roslyn_ls')
 
 vim.lsp.enable('stylua')
 
