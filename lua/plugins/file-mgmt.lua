@@ -109,8 +109,7 @@ return {
 						"ts",
 						"tsx",
 						"javascriptreact",
-						"typescriptreact",
-            "razor"
+						"typescriptreact"
 					},
 				},
         aliases = {
@@ -119,23 +118,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	-- 	"ibhagwan/fzf-lua",
-	-- 	dependencies = {
-	-- 		"nvim-tree/nvim-web-devicons",
-	-- 	},
-	-- 	config = function()
-	-- 		require("fzf-lua").setup({
-	-- 			winopts = {
-	-- 				preview = {
-	-- 					vertical = "down:30%",
-	-- 					layout = "vertical"
-	-- 				}
-	-- 			}
-	-- 		})
-	-- 		require("fzf-lua").register_ui_select()
-	-- 	end,
-	-- },
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {

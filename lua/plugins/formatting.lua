@@ -1,7 +1,6 @@
 return {
 	{
 		"stevearc/conform.nvim",
-    lazy = false,
 		config = function(_, opts)
 			require("conform").setup({
 				formatters = {
@@ -14,12 +13,10 @@ return {
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
-					cs = { "clang-format" },
+					cs = { "csharpier" },
 					java = { "google-java-format" },
 					python = { "black" },
-					-- razor = { "injected", lsp_format = "never" },
 					html = {"htmlbeautifier"},
-					-- html = { "prettierd" },
 					-- xml = {"prettier", "prettierd"},
 					javascript = { "js_beautify" },
 					typescript = { "prettierd" },
@@ -32,10 +29,6 @@ return {
 			require("conform").formatters.injected = {
 				options = {
 					ignore_errors = true,
-					-- lang_to_formatters = {
-					--   c_sharp = { "clang-format" },
-					--   html = { "prettier" }
-					-- }
 				},
 			}
 		end,

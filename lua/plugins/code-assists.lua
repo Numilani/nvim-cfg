@@ -1,6 +1,7 @@
 return {
   {
     "saghen/blink.cmp",
+    lazy = false,
     dependencies = { "rafamadriz/friendly-snippets" },
     version = "v1.*",
     opts = {
@@ -47,24 +48,6 @@ return {
     "stevearc/overseer.nvim",
     config = function()
       require('overseer').setup()
-      -- local overseer = require("overseer")
-      -- local template_dir = vim.fn.stdpath("config") .. "/lua/overseer/template"
-      --
-      -- Recursively find all Lua files
-      -- local files = vim.fn.glob(template_dir .. "/**/*.lua", false, true)
-
-      -- for _, file in ipairs(files) do
-      --   local rel_path = file:sub(#template_dir + 2, -5) -- strip base dir + slash and ".lua"
-      --   local mod_name = "overseer.template." .. rel_path:gsub("/", ".")
-      --
-      --
-      --   local ok, template = pcall(require, mod_name)
-      --   if ok and type(template) == "table" then
-      --     overseer.register_template(template)
-      --   else
-      --     vim.notify("Failed to load Overseer template: " .. mod_name, vim.log.levels.ERROR)
-      --   end
-      -- end
     end,
   },
   {
@@ -108,42 +91,7 @@ return {
       },
     },
   },
-  -- {
-  --   "kevinhwang91/nvim-ufo",
-  --   dependencies = {
-  --     "kevinhwang91/promise-async",
-  --   },
-  --   setup = function()
-  --     vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-  --     vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-  --
-  --     local capabilities = vim.lsp.protocol.make_client_capabilities()
-  --     capabilities.textDocument.foldingRange = {
-  --       dynamicRegistration = false,
-  --       lineFoldingOnly = true,
-  --     }
-  --     local language_servers = vim.lsp.get_clients() -- or list servers manually like {'gopls', 'clangd'}
-  --     for _, ls in ipairs(language_servers) do
-  --       require("lspconfig")[ls].setup({
-  --         capabilities = capabilities,
-  --         -- you can add other fields for setting up lsp server in this table
-  --       })
-  --     end
-  --
-  --     -- require("ufo").setup({
-  --     --   provider_selector = function(bufnr, filetype, buftype)
-  --     --     return { 'treesitter', 'indent' }
-  --     --   end
-  --     -- })
-  --   end,
-  -- },
   {
     "HiPhish/rainbow-delimiters.nvim"
   },
-  -- {
-  --   "ray-x/lsp_signature.nvim",
-  --   setup = function()
-  --     require "lsp_signature".setup()
-  --   end
-  -- },
 }
