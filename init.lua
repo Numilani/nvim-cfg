@@ -93,10 +93,40 @@ vim.diagnostic.config({
 	},
 })
 
+-- rainbow highlighting
+vim.g.rainbow_delimiters = {
+    strategy = {
+        [''] = 'rainbow-delimiters.strategy.global',
+        vim = 'rainbow-delimiters.strategy.local',
+    },
+    query = {
+        [''] = 'rainbow-delimiters',
+        lua = 'rainbow-blocks',
+        html = 'rainbow-delimiters',
+        razor = 'rainbow-delimiters'
+    },
+    priority = {
+        [''] = 110,
+        lua = 210,
+    },
+    highlight = {
+        'RainbowDelimiterRed',
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+    },
+}
+
 -- configure LSPs
--- vim.lsp.config('roslyn_ls', {
---   filetypes = { "razor", "cs" },
--- })
+
+vim.lsp.config('html', {
+  filetypes = { "html", "razor" }
+})
+
+
 -- enable LSPs
 
 vim.lsp.enable('html')
@@ -246,6 +276,10 @@ end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
+vim.keymap.set({ "n", "v" }, "<leader>cf", function()
+  require("conform").format({ lsp_fallback = true, async = true, timeout_ms = 1500 })
+end, { desc = "Format" })
+
 
 -- AI command
 vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })

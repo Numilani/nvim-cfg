@@ -1,16 +1,7 @@
 return {
 	{
 		"stevearc/conform.nvim",
-		keys = {
-			{
-				"<leader>cf",
-				function()
-					require("conform").format({ async = true })
-				end,
-				mode = "",
-				desc = "Format Code",
-			},
-		},
+    lazy = false,
 		config = function(_, opts)
 			require("conform").setup({
 				formatters = {
