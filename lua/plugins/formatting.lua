@@ -23,7 +23,7 @@ return {
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },
-					cs = { "clang-format" },
+					cs = { "csharpier" },
 					java = { "google-java-format" },
 					python = { "black" },
 					-- razor = { "injected", lsp_format = "never" },
