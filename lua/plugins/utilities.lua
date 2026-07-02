@@ -28,6 +28,29 @@ return {
 			-- require("mini.move").setup()
 		end,
 	},
+  {
+    "arsham/listish.nvim",
+    dependencies = {
+      "arsham/arshlib.nvim",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    config = {
+      loclist = {
+        open = "<leader>lo",
+        on_cursor = "<leader>lw",
+        add_note = "<leader>ln",
+        clear = "<leader>ld",
+        close = "<leader>lc",
+        next = "]l",
+        prev = "[l",
+      },
+    },
+  },
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
+    opts = {},
+  },
 	-- which-key - a keystroke helper
 	{
 		"folke/which-key.nvim",
@@ -53,12 +76,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	--   "akinsho/toggleterm.nvim", config = true
-	-- },
-	-- {
-	-- 	"tpope/vim-sleuth",
-	-- },
 	{
 		"numToStr/FTerm.nvim",
 		config = function()
