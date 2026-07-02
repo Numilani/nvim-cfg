@@ -23,7 +23,7 @@ return {
 			require("mini.surround").setup()
 			require("mini.cursorword").setup()
 			require("mini.basics").setup()
-      require("mini.bufremove").setup()
+			require("mini.bufremove").setup()
 		end,
 	},
 	-- which-key - a keystroke helper
@@ -52,37 +52,60 @@ return {
 		end,
 	},
 	{
+		"arsham/listish.nvim",
+		dependencies = {
+			"arsham/arshlib.nvim",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		config = {
+			loclist = {
+				open = "<leader>lo",
+				on_cursor = "<leader>lw",
+				add_note = "<leader>ln",
+				clear = "<leader>ld",
+				close = "<leader>lc",
+				next = "]l",
+				prev = "[l",
+			},
+		},
+	},
+	{
+		"chentoast/marks.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
+	{
 		"numToStr/FTerm.nvim",
 		config = true,
 	},
-  {
-    "kawre/leetcode.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      lang = "python"
-    }
-  },
-  {
-    "lewis6991/gitsigns.nvim"
-  },
-  {
-    "chrisgrieser/nvim-recorder",
-    dependencies = "rcarriga/nvim-notify",
-    opts = {
-      dynamicSlots = "rotate"
-    },
-  },
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    opts = {
-      preview = {
-        filetypes = {"markdown", "codecompanion"},
-        ignore_buftypes = {},
-      },
-    },
-  },
+	{
+		"kawre/leetcode.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+		},
+		opts = {
+			lang = "python",
+		},
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+	},
+	{
+		"chrisgrieser/nvim-recorder",
+		dependencies = "rcarriga/nvim-notify",
+		opts = {
+			dynamicSlots = "rotate",
+		},
+	},
+	{
+		"OXY2DEV/markview.nvim",
+		lazy = false,
+		opts = {
+			preview = {
+				filetypes = { "markdown", "codecompanion" },
+				ignore_buftypes = {},
+			},
+		},
+	},
 }
