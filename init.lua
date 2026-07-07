@@ -276,6 +276,12 @@ vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
+-- LSP Go-to functions
+vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.declaration<CR>", { desc = "Goto Declaration" })
+vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition<CR>", { desc = "Goto Definition (Type)" })
+vim.keymap.set("n", "<leader>gi", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
+vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
+
 
 -- Debugger advanced commands
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })

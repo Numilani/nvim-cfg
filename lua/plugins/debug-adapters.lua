@@ -1,231 +1,239 @@
 return {
-  {
-    "mfussenegger/nvim-dap",
-    lazy = false,
-    dependencies = {
-      "williamboman/mason.nvim",
-      -- opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
-    },
-    config = function()
-      local dap = require("dap")
-      -- dap.adapters.python = {
-      --   type = "executable",
-      --   command = vim.fn.exepath("debugpy-adapter"),
-      -- }
-      dap.adapters.coreclr = {
-        type = "executable",
-        command = vim.fn.exepath("netcoredbg"),
-        args = { "--interpreter=vscode" },
-      }
-      -- dap.adapters.node2 = {
-      --   type = 'executable',
-      --   command = 'node',
-      --   args = { os.getenv('XDG_DATA_HOME') .. '/debug_adapters/vscode-node-debug2/out/src/nodeDebug.js' },
-      -- }
-      dap.adapters["pwa-node"] = {
-        type = "server",
-        host = "localhost",
-        port = "${port}",
-        executable = {
-          command = "bun",
-          args = {
-            "C:/Users/AppData/Local/nvim-data" .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
-            "${port}"
-          },
-        }
-      }
-      dap.adapters.codelldb = {
-        type = "server",
-        port = "${port}",
-        executable = {
-          command = vim.fn.exepath("codelldb"),
-          args = { "--port", "${port}" },
-        },
-      }
+	{
+		"mfussenegger/nvim-dap",
+		lazy = false,
+		dependencies = {
+			"williamboman/mason.nvim",
+			-- opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
+		},
+		config = function()
+			local dap = require("dap")
+			-- dap.adapters.python = {
+			--   type = "executable",
+			--   command = vim.fn.exepath("debugpy-adapter"),
+			-- }
+			dap.adapters.coreclr = {
+				type = "executable",
+				command = "C:/Users/arnoldje/AppData/Local/nvim-data"
+					.. "/mason/packages/netcoredbg/netcoredbg/netcoredbg.exe",
+				args = { "--interpreter=vscode" },
+			}
+			-- dap.adapters.node2 = {
+			--   type = 'executable',
+			--   command = 'node',
+			--   args = { os.getenv('XDG_DATA_HOME') .. '/debug_adapters/vscode-node-debug2/out/src/nodeDebug.js' },
+			-- }
+			dap.adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "bun",
+					args = {
+						"C:/Users/arnoldje/AppData/Local/nvim-data"
+							.. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
+				},
+			}
+			dap.adapters.codelldb = {
+				type = "server",
+				port = "${port}",
+				executable = {
+					command = vim.fn.exepath("codelldb"),
+					args = { "--port", "${port}" },
+				},
+			}
 
-      -- dap.configurations.python = {
-      --   {
-      --     type = "python",
-      --     request = "launch",
-      --     name = "Launch File",
-      --     program = "${file}",
-      --     pythonPath = venv_path
-      --         and ((vim.fn.has("win32") == 1 and venv_path .. "/Scripts/python") or venv_path .. "/usr/bin/python")
-      --         or nil,
-      --     console = "integratedTerminal",
-      --   },
-      -- }
-      -- dap.configurations.java = {
-      -- 	{
-      -- 		type = "java",
-      -- 		request = "attach",
-      -- 		name = "Attach to Remote",
-      -- 		hostName = "127.0.0.1",
-      -- 		port = 5005,
-      -- 		hotCodeReplace = "auto",
-      -- 	},
-      -- }
-      -- dap.configurations.javascript = {
-      --   {
-      --     type = "node2",
-      --     request = "launch",
-      --     name = "Launch File",
-      --     program = "${file}",
-      --     cwd = "${workspaceFolder}",
-      --   },
-      -- }
-      -- dap.configurations.typescript = {
-      --   {
-      --     type = "node2",
-      --     request = "launch",
-      --     name = "Launch File (tsx)",
-      --     program = "${file}",
-      --     runtimeArgs = { "-r", "ts-node/register" },
-      --     args = { "--inspect", "${file}" },
-      --     console = "integratedTerminal",
-      --     -- runtimeArgs = {"--experimental-transform-types", "tsx"},
-      --     -- runtimeExecutable = "tsx",
-      --     cwd = "${workspaceFolder}",
-      --   },
-      -- }
-      dap.configurations.javascript = {
-        {
-          type = "pwa-node",
-          request = "launch",
-          name = "Launch Current File",
-          program = "${file}",
-          cwd = "${workspaceFolder}",
-          runtimeExecutable = "node",
-          console = "integratedTerminal",
-          internalConsoleOptions = "neverOpen",
-        }
-      }
-      dap.configurations.typescript = {
-        {
-          type = "pwa-node",
-          request = "launch",
-          name = "Launch Current File",
-          program = "${file}",
-          cwd = "${workspaceFolder}",
-          runtimeExecutable = "node",
-          console = "integratedTerminal",
-          internalConsoleOptions = "neverOpen",
-        }
-      }
+			-- dap.configurations.python = {
+			--   {
+			--     type = "python",
+			--     request = "launch",
+			--     name = "Launch File",
+			--     program = "${file}",
+			--     pythonPath = venv_path
+			--         and ((vim.fn.has("win32") == 1 and venv_path .. "/Scripts/python") or venv_path .. "/usr/bin/python")
+			--         or nil,
+			--     console = "integratedTerminal",
+			--   },
+			-- }
+			-- dap.configurations.java = {
+			-- 	{
+			-- 		type = "java",
+			-- 		request = "attach",
+			-- 		name = "Attach to Remote",
+			-- 		hostName = "127.0.0.1",
+			-- 		port = 5005,
+			-- 		hotCodeReplace = "auto",
+			-- 	},
+			-- }
+			-- dap.configurations.javascript = {
+			--   {
+			--     type = "node2",
+			--     request = "launch",
+			--     name = "Launch File",
+			--     program = "${file}",
+			--     cwd = "${workspaceFolder}",
+			--   },
+			-- }
+			-- dap.configurations.typescript = {
+			--   {
+			--     type = "node2",
+			--     request = "launch",
+			--     name = "Launch File (tsx)",
+			--     program = "${file}",
+			--     runtimeArgs = { "-r", "ts-node/register" },
+			--     args = { "--inspect", "${file}" },
+			--     console = "integratedTerminal",
+			--     -- runtimeArgs = {"--experimental-transform-types", "tsx"},
+			--     -- runtimeExecutable = "tsx",
+			--     cwd = "${workspaceFolder}",
+			--   },
+			-- }
+			dap.configurations.javascript = {
+				{
+					type = "pwa-node",
+					request = "launch",
+					name = "Launch Current File",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+					runtimeExecutable = "node",
+					console = "integratedTerminal",
+					internalConsoleOptions = "neverOpen",
+				},
+			}
+			dap.configurations.typescript = {
+				{
+					type = "pwa-node",
+					request = "launch",
+					name = "Launch Current File",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+					runtimeExecutable = "node",
+					console = "integratedTerminal",
+					internalConsoleOptions = "neverOpen",
+				},
+			}
 
-      local function get_lldb_target()
-        return coroutine.create(function(dap_run_co)
-          local items = vim.fn.globpath(vim.fn.getcwd(), "**/*", 0, 1)
-          local opts = {
-            format_item = function(path)
-              return vim.fn.fnamemodify(path, ":t")
-            end,
-          }
-          local function cont(choice)
-            if choice == nil then
-              return nil
-            else
-              coroutine.resume(dap_run_co, choice)
-            end
-          end
+			local function get_lldb_target()
+				return coroutine.create(function(dap_run_co)
+					local items = vim.fn.globpath(vim.fn.getcwd(), "**/*", 0, 1)
+					local opts = {
+						format_item = function(path)
+							return vim.fn.fnamemodify(path, ":t")
+						end,
+					}
+					local function cont(choice)
+						if choice == nil then
+							return nil
+						else
+							coroutine.resume(dap_run_co, choice)
+						end
+					end
 
-          vim.ui.select(items, opts, cont)
-        end)
-      end
+					vim.ui.select(items, opts, cont)
+				end)
+			end
 
-      dap.configurations.c = {
-        {
-          name = "Launch",
-          request = "launch",
-          type = "codelldb",
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          args = {},
-          console = "integratedTerminal",
-          program = get_lldb_target,
-        },
-      }
-      dap.configurations.rust = {
-        {
-          name = "Launch",
-          request = "launch",
-          type = "codelldb",
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          args = {},
-          console = "integratedTerminal",
-          program = get_lldb_target,
-        },
-      }
+			dap.configurations.c = {
+				{
+					name = "Launch",
+					request = "launch",
+					type = "codelldb",
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					args = {},
+					console = "integratedTerminal",
+					program = get_lldb_target,
+				},
+			}
+			dap.configurations.rust = {
+				{
+					name = "Launch",
+					request = "launch",
+					type = "codelldb",
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					args = {},
+					console = "integratedTerminal",
+					program = get_lldb_target,
+				},
+			}
 
-      local function get_dll()
-        return coroutine.create(function(dap_run_co)
-          local items = vim.fn.globpath(vim.fn.getcwd(), "**/bin/Debug/**/*.dll", 0, 1)
-          local opts = {
-            format_item = function(path)
-              return vim.fn.fnamemodify(path, ":t")
-            end,
-          }
-          local function cont(choice)
-            if choice == nil then
-              return nil
-            else
-              coroutine.resume(dap_run_co, choice)
-            end
-          end
+			local function get_dll()
+				return coroutine.create(function(dap_run_co)
+					local items = vim.fn.globpath(vim.fn.getcwd(), "**/bin/Debug/**/*.dll", 0, 1)
+					local opts = {
+						format_item = function(path)
+							return vim.fn.fnamemodify(path, ":t")
+						end,
+					}
+					local function cont(choice)
+						if choice == nil then
+							return nil
+						else
+							coroutine.resume(dap_run_co, choice)
+						end
+					end
 
-          vim.ui.select(items, opts, cont)
-        end)
-      end
+					vim.ui.select(items, opts, cont)
+				end)
+			end
 
-      dap.configurations.cs = {
-        {
-          type = "coreclr",
-          name = "launch - netcoredbg",
-          request = "launch",
-          program = get_dll,
-        },
-      }
-    end,
-  },
-  {
-    'mfussenegger/nvim-dap-python',
-    config = function()
-      require('dap-python').setup("/usr/bin/python")
-    end
-  },
-  {
-    "igorlfs/nvim-dap-view",
-    lazy = false,
-  },
-  -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   dependencies = {
-  --     "mfussenegger/nvim-dap",
-  --     "nvim-neotest/nvim-nio",
-  --   },
-  --   config = function()
-  --     require("dapui").setup({
-  --       layouts = {
-  --         {
-  --           elements = {
-  --             {id = "scopes", size = 0.5},
-  --             {id = "breakpoints", size = 0.25},
-  --             {id = "watches", size = 0.25},
-  --           },
-  --           position = "left",
-  --           size = 40,
-  --         },
-  --         {
-  --           elements = {
-  --             {id = "repl", size = 0.5},
-  --             {id = "console", size = 0.5},
-  --           },
-  --           position = "bottom",
-  --           size = 10
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- },
-  }
+			dap.configurations.cs = {
+				{
+					type = "coreclr",
+					name = "launch - netcoredbg",
+					request = "launch",
+					program = get_dll,
+				},
+				{
+					type = "coreclr",
+					name = "attach - netcoredbg",
+					request = "attach",
+					processId = require("dap.utils").pick_process,
+				},
+			}
+		end,
+	},
+	{
+		"mfussenegger/nvim-dap-python",
+		config = function()
+			require("dap-python").setup("/usr/bin/python")
+		end,
+	},
+	{
+		"igorlfs/nvim-dap-view",
+		lazy = false,
+	},
+	-- {
+	--   "rcarriga/nvim-dap-ui",
+	--   dependencies = {
+	--     "mfussenegger/nvim-dap",
+	--     "nvim-neotest/nvim-nio",
+	--   },
+	--   config = function()
+	--     require("dapui").setup({
+	--       layouts = {
+	--         {
+	--           elements = {
+	--             {id = "scopes", size = 0.5},
+	--             {id = "breakpoints", size = 0.25},
+	--             {id = "watches", size = 0.25},
+	--           },
+	--           position = "left",
+	--           size = 40,
+	--         },
+	--         {
+	--           elements = {
+	--             {id = "repl", size = 0.5},
+	--             {id = "console", size = 0.5},
+	--           },
+	--           position = "bottom",
+	--           size = 10
+	--         },
+	--       },
+	--     })
+	--   end,
+	-- },
+}

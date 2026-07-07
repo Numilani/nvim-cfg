@@ -35,9 +35,12 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = {
+      quicklist = {
+        on_cursor = "<leader>qa",
+      },
       loclist = {
         open = "<leader>lo",
-        on_cursor = "<leader>lw",
+        on_cursor = "<leader>la",
         add_note = "<leader>ln",
         clear = "<leader>ld",
         close = "<leader>lc",
