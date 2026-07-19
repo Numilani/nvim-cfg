@@ -79,6 +79,25 @@ return {
     config = function()
       require('nvim-treesitter').setup({
         install_dir = vim.fn.stdpath("data") .. "/site",
+        ensure_installed = {
+          "bash",
+          "c_sharp",
+          "css",
+          "ecma",
+          "java",
+          "javascript",
+          "json",
+          "json5",
+          "jsx",
+          "lua",
+          "markdown",
+          "markdown_inline",
+          "python",
+          "razor",
+          "regex",
+          "tsx",
+          "typescript",
+        },
         indent = {
           enable = true,
         }
