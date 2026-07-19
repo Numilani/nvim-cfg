@@ -72,6 +72,34 @@ return {
 			require("mini.bufremove").setup()
 		end,
 	},
+  -- listish - handle quicklist/loclist more gracefully
+	{
+		"arsham/listish.nvim",
+		dependencies = {
+			"arsham/arshlib.nvim",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		config = {
+			quicklist = {
+				on_cursor = "<leader>qa",
+			},
+			loclist = {
+				open = "<leader>lo",
+				on_cursor = "<leader>la",
+				add_note = "<leader>ln",
+				clear = "<leader>ld",
+				close = "<leader>lc",
+				next = "]l",
+				prev = "[l",
+			},
+		},
+	},
+  -- marks - clearer mark displays and handling 
+	{
+		"chentoast/marks.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
 	-- which-key - a keystroke helper
 	{
 		"folke/which-key.nvim",
@@ -96,29 +124,6 @@ return {
 				{ "<leader>s", group = "surround" },
 			})
 		end,
-	},
-	{
-		"arsham/listish.nvim",
-		dependencies = {
-			"arsham/arshlib.nvim",
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
-		config = {
-			loclist = {
-				open = "<leader>lo",
-				on_cursor = "<leader>lw",
-				add_note = "<leader>ln",
-				clear = "<leader>ld",
-				close = "<leader>lc",
-				next = "]l",
-				prev = "[l",
-			},
-		},
-	},
-	{
-		"chentoast/marks.nvim",
-		event = "VeryLazy",
-		opts = {},
 	},
 	{
 		"numToStr/FTerm.nvim",

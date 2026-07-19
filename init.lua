@@ -104,12 +104,10 @@ vim.diagnostic.config({
 })
 
 -- configure LSPs
--- vim.lsp.config('roslyn_ls', {
---   filetypes = { "razor", "cs" },
--- })
 vim.lsp.config('html', {
   filetypes = {"html", "razor" }
 })
+
 -- enable LSPs
 
 vim.lsp.enable('html')
@@ -285,6 +283,12 @@ vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<C
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
+
+-- LSP Go-to functions
+vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition<CR>", { desc = "Goto Definition" })
+vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition<CR>", { desc = "Goto TypeDef" })
+vim.keymap.set("n", "<leader>gi", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
+vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
 
 
 -- Debugger advanced commands
