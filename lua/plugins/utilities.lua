@@ -1,4 +1,50 @@
 return {
+	-- mason-tool-installer - ensure all the LSPs are installed
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		config = function()
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					"bash-language-server",
+					"black",
+					"blue",
+					"clang-format",
+					"csharpier",
+					"css-lsp",
+					"debugpy",
+					"delve",
+					"google-java-format",
+					"gopls",
+					"html-lsp",
+					"htmlbeautifier",
+					"htmlhint",
+					"java-debug-adapter",
+					"jdtls",
+					"js-debug-adapter",
+					"json-lsp",
+					"jsonlint",
+					"kotlin-lsp",
+					"ktfmt",
+					"ktlint",
+					"netcoredbg",
+					"powershell-editor-services",
+					"prettier",
+					"prettierd",
+					"pylint",
+					"roslyn-language-server",
+					"standardjs",
+					"stylua",
+					"ts-standard",
+					"typescript-language-server",
+					"vale",
+					"zuban",
+				},
+				run_on_start = true,
+				start_delay = 3000,
+				debounce_hours = 168,
+			})
+		end,
+	},
 	-- Flash - the new AceJump alternative, jump to locs on screen via letters
 	{
 		"folke/flash.nvim",
@@ -28,32 +74,32 @@ return {
 			-- require("mini.move").setup()
 		end,
 	},
-  {
-    "arsham/listish.nvim",
-    dependencies = {
-      "arsham/arshlib.nvim",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
-    config = {
-      quicklist = {
-        on_cursor = "<leader>qa",
-      },
-      loclist = {
-        open = "<leader>lo",
-        on_cursor = "<leader>la",
-        add_note = "<leader>ln",
-        clear = "<leader>ld",
-        close = "<leader>lc",
-        next = "]l",
-        prev = "[l",
-      },
-    },
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
+	{
+		"arsham/listish.nvim",
+		dependencies = {
+			"arsham/arshlib.nvim",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		config = {
+			quicklist = {
+				on_cursor = "<leader>qa",
+			},
+			loclist = {
+				open = "<leader>lo",
+				on_cursor = "<leader>la",
+				add_note = "<leader>ln",
+				clear = "<leader>ld",
+				close = "<leader>lc",
+				next = "]l",
+				prev = "[l",
+			},
+		},
+	},
+	{
+		"chentoast/marks.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
 	-- which-key - a keystroke helper
 	{
 		"folke/which-key.nvim",

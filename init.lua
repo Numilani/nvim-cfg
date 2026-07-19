@@ -20,7 +20,6 @@ vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldcolumn = "auto"
 vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 vim.opt.background = "dark"
 
@@ -53,7 +52,6 @@ vim.keymap.set("i", "<BS>", function()
 	local before_cursor = line:sub(1, col)
 
 	if before_cursor:match("^%s+$") then
-		-- Only whitespace before cursor: delete it all and join to previous line
 		return "<C-u><BS>"
 	else
 		return "<BS>"
@@ -83,6 +81,18 @@ vim.cmd.colorscheme("molokai")
 -- L S P   A N D   D I A G N O S T I C S
 --
 
+-- handle treesitter vs lsp folding
+
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method("textDocument/foldingRange") then
+      vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+    end
+  end,
+})
+
 -- disable underlines for info/hints 
 vim.diagnostic.config({
 	virtual_text = false,
@@ -97,7 +107,6 @@ vim.diagnostic.config({
 vim.lsp.config('html', {
   filetypes = { "html", "razor" }
 })
-
 
 -- enable LSPs
 
@@ -277,8 +286,8 @@ vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
 -- LSP Go-to functions
-vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.declaration<CR>", { desc = "Goto Declaration" })
-vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition<CR>", { desc = "Goto Definition (Type)" })
+vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition<CR>", { desc = "Goto Definition" })
+vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition<CR>", { desc = "Goto TypeDef" })
 vim.keymap.set("n", "<leader>gi", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
 vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
 

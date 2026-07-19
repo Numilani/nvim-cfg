@@ -4,7 +4,6 @@ return {
 		lazy = false,
 		dependencies = {
 			"williamboman/mason.nvim",
-			-- opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
 		},
 		config = function()
 			local dap = require("dap")
@@ -206,34 +205,4 @@ return {
 		"igorlfs/nvim-dap-view",
 		lazy = false,
 	},
-	-- {
-	--   "rcarriga/nvim-dap-ui",
-	--   dependencies = {
-	--     "mfussenegger/nvim-dap",
-	--     "nvim-neotest/nvim-nio",
-	--   },
-	--   config = function()
-	--     require("dapui").setup({
-	--       layouts = {
-	--         {
-	--           elements = {
-	--             {id = "scopes", size = 0.5},
-	--             {id = "breakpoints", size = 0.25},
-	--             {id = "watches", size = 0.25},
-	--           },
-	--           position = "left",
-	--           size = 40,
-	--         },
-	--         {
-	--           elements = {
-	--             {id = "repl", size = 0.5},
-	--             {id = "console", size = 0.5},
-	--           },
-	--           position = "bottom",
-	--           size = 10
-	--         },
-	--       },
-	--     })
-	--   end,
-	-- },
 }
