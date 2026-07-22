@@ -12,10 +12,17 @@ return {
 			sources = { "filesystem", "buffers", "git_status" },
 			open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
 			filesystem = {
+				respect_gitignore = false,
+				git_status_async = true,
 				group_empty_dirs = true,
 				bind_to_cwd = false,
 				follow_current_file = { enabled = true },
 				use_libuv_file_watcher = true,
+				filtered_items = {
+					visible = false,
+					hide_dotfiles = false,
+					hide_gitignored = true,
+				},
 			},
 			window = {
 				width = 60,
