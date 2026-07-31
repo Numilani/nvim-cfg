@@ -13,7 +13,7 @@ return {
 			-- }
 			dap.adapters.coreclr = {
 				type = "executable",
-				command = "C:/Users/arnoldje/AppData/Local/nvim-data"
+				command = "C:/Users/JohnArnold/AppData/Local/nvim-data"
 					.. "/mason/packages/netcoredbg/netcoredbg/netcoredbg.exe",
 				args = { "--interpreter=vscode" },
 			}
@@ -29,7 +29,7 @@ return {
 				executable = {
 					command = "bun",
 					args = {
-						"C:/Users/arnoldje/AppData/Local/nvim-data"
+						"C:/Users/JohnArnold/AppData/Local/nvim-data"
 							.. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
 						"${port}",
 					},
