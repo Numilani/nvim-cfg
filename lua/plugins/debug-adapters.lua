@@ -1,13 +1,49 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
-		lazy = false,
+		-- lazy = false,
 		dependencies = {
 			"williamboman/mason.nvim",
 			opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
 		},
 		config = function()
 			local dap = require("dap")
+			-- dap.set_log_level("TRACE")
+
+			dap.listeners.on_config["launchsettings-merge"] = function(config)
+				if config.type ~= "coreclr" and config.type ~= "netcoredbg" then
+					return config
+				end
+        if not config.env or not config.env.ASPNETCORE_HTTP_PORT then
+          return config
+        end
+
+        local merged = vim.deepcopy(config)
+        local port = merged.env.ASPNETCORE_HTTP_PORT
+        merged.env.ASPNETCORE_URLS = "https://localhost:" .. port
+        return merged
+        
+			end
+
+			-- Reusable function to fix the env nesting dynamically
+			local function fix_env_nesting(adapter_name)
+				dap.adapters[adapter_name] = vim.tbl_deep_extend("force", dap.adapters[adapter_name] or {}, {
+					enrich_config = function(config, on_config)
+						if config.env then
+							config.options = config.options or {}
+							config.options.env = vim.tbl_deep_extend("force", config.options.env or {}, config.env)
+						end
+						on_config(config)
+					end,
+				})
+			end
+
+			local adapters_to_fix = { "coreclr", "python", "node2" }
+
+			for _, adapter in ipairs(adapters_to_fix) do
+				fix_env_nesting(adapter)
+			end
+
 			dap.adapters.python = {
 				type = "executable",
 				command = vim.fn.exepath("debugpy-adapter"),
@@ -24,19 +60,7 @@ return {
 					os.getenv("HOME") .. "/.local/share/nvim/debug_adapters/vscode-node-debug2/out/src/nodeDebug.js",
 				},
 			}
-			dap.adapters["pwa-node"] = {
-				type = "server",
-				host = "localhost",
-				port = "${port}",
-				executable = {
-					command = "bun",
-					args = {
-						os.getenv("HOME")
-							.. "/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
-						"${port}",
-					},
-				},
-			}
+
 			dap.adapters.codelldb = {
 				type = "server",
 				port = "${port}",
@@ -59,14 +83,14 @@ return {
 				},
 			}
 			dap.configurations.java = {
-   	{
-   		type = "java",
+				{
+					type = "java",
 					request = "attach",
 					name = "Attach to Remote",
-	  		hostName = "127.0.0.1",
+					hostName = "127.0.0.1",
 					port = 5005,
-   		hotCodeReplace = "auto",
-	  	},
+					hotCodeReplace = "auto",
+				},
 			}
 			-- dap.configurations.javascript = {
 			--   {
@@ -200,5 +224,11 @@ return {
 	{
 		"igorlfs/nvim-dap-view",
 		lazy = false,
+		sections = { "console", "watches", "breakpoints", "scopes", "exceptions", "threads", "repl" },
+		default_section = "console",
+		controls = {
+			enabled = true,
+		},
+		auto_toggle = true,
 	},
 }

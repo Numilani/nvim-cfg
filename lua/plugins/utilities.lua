@@ -39,9 +39,9 @@ return {
           'vale',
           'zuban'
         },
-        run_on_start = true,
+        run_on_start = false,
         start_delay = 3000,
-        debounce_hours = 168,
+        debounce_hours = 0,
       }
     end
   },
@@ -80,7 +80,7 @@ return {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		config = {
-			quicklist = {
+			quickfix = {
 				on_cursor = "<leader>qa",
 			},
 			loclist = {

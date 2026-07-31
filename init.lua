@@ -1,16 +1,19 @@
 -- 
 -- V I M    O P T I O N S
 --
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.opt.termguicolors = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4 
+vim.opt.softtabstop = 4 
+vim.opt.shiftwidth = 4 
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 
@@ -112,6 +115,7 @@ vim.lsp.config('html', {
 
 vim.lsp.enable('html')
 vim.lsp.enable('jsonls')
+vim.lsp.enable('marksman')
 
 -- vim.lsp.enable('roslyn_ls')
 
@@ -257,7 +261,7 @@ end, { desc = "Rename..." })
 vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
-vim.keymap.set({ "n", "v" }, "<leader>cF", function()
+vim.keymap.set({ "n", "v" }, "<leader>cf", function()
   require("conform").format({ lsp_fallback = true, async = true, timeout_ms = 1500 })
 end, { desc = "Format" })
 
@@ -285,8 +289,8 @@ vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
 -- LSP Go-to functions
-vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition<CR>", { desc = "Goto Definition" })
-vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition<CR>", { desc = "Goto TypeDef" })
+vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition()<CR>", { desc = "Goto Definition" })
+vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto TypeDef" })
 vim.keymap.set("n", "<leader>gi", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
 vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
 
@@ -294,12 +298,7 @@ vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<
 -- Debugger advanced commands
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
 vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { desc = "Stop" })
-vim.keymap.set(
-	{ "n", "v" },
-	"<leader>de",
-	":lua require('dapui').eval()<CR>:lua require('dapui').eval<CR>",
-	{ desc = "Eval Cursor" }
-)
+vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>",{ desc = "Eval Cursor" })
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
 
 -- Neotest Test Runner commands
