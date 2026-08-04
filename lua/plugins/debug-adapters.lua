@@ -4,28 +4,27 @@ return {
 		-- lazy = false,
 		dependencies = {
 			"williamboman/mason.nvim",
-			opts = { ensure_installed = { "java-debug-adapter", "java-test" } },
 		},
 		config = function()
 			local dap = require("dap")
-			-- dap.set_log_level("TRACE")
 
+            -- automerge VSCode launchsettings into tasks
 			dap.listeners.on_config["launchsettings-merge"] = function(config)
 				if config.type ~= "coreclr" and config.type ~= "netcoredbg" then
 					return config
 				end
-        if not config.env or not config.env.ASPNETCORE_HTTP_PORT then
-          return config
-        end
+				if not config.env or not config.env.ASPNETCORE_HTTP_PORT then
+					return config
+				end
 
-        local merged = vim.deepcopy(config)
-        local port = merged.env.ASPNETCORE_HTTP_PORT
-        merged.env.ASPNETCORE_URLS = "https://localhost:" .. port
-        return merged
-        
+				local merged = vim.deepcopy(config)
+				local port = merged.env.ASPNETCORE_HTTP_PORT
+				merged.env.ASPNETCORE_URLS = "https://localhost:" .. port
+				return merged
 			end
 
 			-- Reusable function to fix the env nesting dynamically
+            -- idk if I still need this or not, so it stays for now
 			local function fix_env_nesting(adapter_name)
 				dap.adapters[adapter_name] = vim.tbl_deep_extend("force", dap.adapters[adapter_name] or {}, {
 					enrich_config = function(config, on_config)
@@ -44,6 +43,10 @@ return {
 				fix_env_nesting(adapter)
 			end
 
+            -- 
+            --    ADAPTER SETTINGS
+            --
+
 			dap.adapters.python = {
 				type = "executable",
 				command = vim.fn.exepath("debugpy-adapter"),
@@ -53,15 +56,18 @@ return {
 				command = vim.fn.exepath("netcoredbg"),
 				args = { "--interpreter=vscode" },
 			}
-			dap.adapters.node2 = {
-				type = "executable",
-				command = "node",
-				args = {
-					os.getenv("HOME") .. "/.local/share/nvim/debug_adapters/vscode-node-debug2/out/src/nodeDebug.js",
+			
+            dap.adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "node",
+					args = { vim.fn.stdpath('data') .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js","${port}",	},
 				},
 			}
 
-			dap.adapters.codelldb = {
+            dap.adapters.codelldb = {
 				type = "server",
 				port = "${port}",
 				executable = {
@@ -70,6 +76,10 @@ return {
 				},
 			}
 
+            --
+            --    CONFIGURATIONS
+            --
+            
 			dap.configurations.python = {
 				{
 					type = "python",
@@ -92,29 +102,7 @@ return {
 					hotCodeReplace = "auto",
 				},
 			}
-			-- dap.configurations.javascript = {
-			--   {
-			--     type = "node2",
-			--     request = "launch",
-			--     name = "Launch File",
-			--     program = "${file}",
-			--     cwd = "${workspaceFolder}",
-			--   },
-			-- }
-			-- dap.configurations.typescript = {
-			--   {
-			--     type = "node2",
-			--     request = "launch",
-			--     name = "Launch File (tsx)",
-			--     program = "${file}",
-			--     runtimeArgs = { "-r", "ts-node/register" },
-			--     args = { "--inspect", "${file}" },
-			--     console = "integratedTerminal",
-			--     -- runtimeArgs = {"--experimental-transform-types", "tsx"},
-			--     -- runtimeExecutable = "tsx",
-			--     cwd = "${workspaceFolder}",
-			--   },
-			-- }
+			- }
 			dap.configurations.javascript = {
 				{
 					type = "pwa-node",

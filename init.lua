@@ -2,8 +2,10 @@
 -- V I M    O P T I O N S
 --
 
+vim.g.is_windows = vim.fn.has("win32") == 1
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -122,6 +124,7 @@ vim.lsp.enable('marksman')
 vim.lsp.enable('stylua')
 
 vim.lsp.enable('ts_ls')
+-- vim.lsp.enable('tsgo')
 
 
 --
@@ -164,21 +167,7 @@ vim.api.nvim_create_autocmd("BufNewFile", {
 	end,
 })
 
--- fix debugger window glitchiness
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "dapui_*",
-	callback = function()
-		vim.opt_local.winfixwidth = true
-		vim.opt_local.winfixheight = true
-	end,
-})
-
-vim.api.nvim_create_autocmd("BufDelete", {
-	callback = function()
-		require("dapui").close()
-	end,
-})
-
+-- fix claude window
 vim.api.nvim_create_autocmd("TermOpen", {
 	callback = function()
 		local bufname = vim.api.nvim_buf_get_name(0)
@@ -268,14 +257,6 @@ end, { desc = "Format" })
 -- AI command
 vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
 
--- vim.keymap.set("n", "<leader>cx",
---   function()
---     for _, client in ipairs(vim.lsp.buf_get_clients()) do
---       require('workspace-diagnostics')
---           .populate_workspace_diagnostics(client, 0)
---     end
---   end, { desc = "Populate diagnostics" })
-
 -- Search and replace
 vim.keymap.set(
 	"n",
@@ -286,14 +267,16 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', { desc = "Find Everywhere" })
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
+vim.keymap.set("n", "<leader>fc", ":lua require'telescope.builtin'.git_status()<CR>", { desc = "Find Changed Files" })
+vim.keymap.set("x", "<leader>fy", '"zy<Cmd>lua require("telescope.builtin").grep_string({ search = vim.fn.getreg("z") })<CR>', { silent = true })
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
 -- LSP Go-to functions
 vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition()<CR>", { desc = "Goto Definition" })
 vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto TypeDef" })
-vim.keymap.set("n", "<leader>gi", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
-vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
-
+vim.keymap.set("n", "<leader>gi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
+vim.keymap.set("n", "<leader>go", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
+vim.keymap.set("n", "<leader>gu", ":lua require'telescope.builtin'.references()<CR>", { desc = "Goto Usages" })
 
 -- Debugger advanced commands
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })

@@ -12,10 +12,17 @@ return {
       sources = { "filesystem", "buffers", "git_status" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       filesystem = {
+          respect_gitignore = false,
+          git_status_async = true,
         group_empty_dirs = true,
         bind_to_cwd = false,
         follow_current_file = { enabled = true },
         use_libuv_file_watcher = true,
+        filtered_items = {
+            visible = false,
+            hide_dotfiles = false,
+            hide_gitignored = true,
+        },
       },
       window = {
         width = 60,
@@ -160,7 +167,9 @@ return {
           }
         }
       })
-      require('telescope').load_extension("fzf")
+      if vim.g.is_windows ~= true then
+          require('telescope').load_extension("fzf") -- only works on linux
+      end
       require('telescope').load_extension("ui-select")
       require('telescope').load_extension("dap")
     end
