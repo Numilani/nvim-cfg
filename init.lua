@@ -217,6 +217,7 @@ vim.keymap.set("t", "<F3>", "<C-\\><c-n><CMD>lua require'FTerm'.toggle()<CR>", {
 
 vim.keymap.set("n", "<F4>", ":OverseerRun<CR>", { desc = "Run Task..." })
 vim.keymap.set("n", "<F16>", ":OverseerToggle<CR>", { desc = "Show Running Tasks" })
+vim.keymap.set("n", "<S-F4>", ":OverseerToggle<CR>", { desc = "Show Running Tasks" })
 
 -- better buffer closing keystrokes
 vim.keymap.set("n", "<leader>w", function()

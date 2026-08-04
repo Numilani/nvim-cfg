@@ -1,50 +1,50 @@
 return {
-  -- mason-tool-installer - ensure all the LSPs are installed
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    config = function()
-      require('mason-tool-installer').setup {
-        ensure_installed = {
-          'bash-language-server',
-          'black',
-          'blue',
-          'clang-format',
-          'csharpier',
-          'css-lsp',
-          'debugpy',
-          'delve',
-          'google-java-format',
-          'gopls',
-          'html-lsp',
-          'htmlbeautifier',
-          'htmlhint',
-          'java-debug-adapter',
-          'jdtls',
-          'js-debug-adapter',
-          'json-lsp',
-          'jsonlint',
-          'kotlin-lsp',
-          'ktfmt',
-          'ktlint',
-          'netcoredbg',
-          'powershell-editor-services',
-          'prettier',
-          'prettierd',
-          'pylint',
-          'roslyn-language-server',
-          'standardjs',
-          'stylua',
-          'ts-standard',
-          'typescript-language-server',
-          'vale',
-          'zuban'
-        },
-        run_on_start = false,
-        start_delay = 3000,
-        debounce_hours = 0,
-      }
-    end
-  },
+	-- mason-tool-installer - ensure all the LSPs are installed
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		config = function()
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					"bash-language-server",
+					"black",
+					"blue",
+					"clang-format",
+					"csharpier",
+					"css-lsp",
+					"debugpy",
+					"delve",
+					"google-java-format",
+					"gopls",
+					"html-lsp",
+					"htmlbeautifier",
+					"htmlhint",
+					"java-debug-adapter",
+					"jdtls",
+					"js-debug-adapter",
+					"json-lsp",
+					"jsonlint",
+					"kotlin-lsp",
+					"ktfmt",
+					"ktlint",
+					"netcoredbg",
+					"powershell-editor-services",
+					"prettier",
+					"prettierd",
+					"pylint",
+					"roslyn-language-server",
+					"standardjs",
+					"stylua",
+					"ts-standard",
+					"typescript-language-server",
+					"vale",
+					"zuban",
+				},
+				run_on_start = false,
+				start_delay = 3000,
+				debounce_hours = 0,
+			})
+		end,
+	},
 	-- Flash - the new AceJump alternative, jump to locs on screen via letters
 	{
 		"folke/flash.nvim",
@@ -72,7 +72,15 @@ return {
 			require("mini.bufremove").setup()
 		end,
 	},
-  -- listish - handle quicklist/loclist more gracefully
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			rename = { enabled = true },
+		},
+	},
+	-- listish - handle quicklist/loclist more gracefully
 	{
 		"arsham/listish.nvim",
 		dependencies = {
@@ -94,7 +102,7 @@ return {
 			},
 		},
 	},
-  -- marks - clearer mark displays and handling 
+	-- marks - clearer mark displays and handling
 	{
 		"chentoast/marks.nvim",
 		event = "VeryLazy",
@@ -127,7 +135,16 @@ return {
 	},
 	{
 		"numToStr/FTerm.nvim",
-		config = true,
+		config = function()
+			local cfg = {}
+			if vim.g.is_windows then
+				require("FTerm").setup({
+					cmd = "powershell",
+				})
+			else
+				require("FTerm").setup()
+			end
+		end,
 	},
 	{
 		"kawre/leetcode.nvim",

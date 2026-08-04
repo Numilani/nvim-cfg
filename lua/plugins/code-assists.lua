@@ -1,40 +1,42 @@
 return {
 	{
 		"saghen/blink.cmp",
-    lazy = false,
 		dependencies = { "rafamadriz/friendly-snippets" },
-		version = "v1.*",
+		version = "1.*",
 		opts = {
 			keymap = {
-				preset = "super-tab",
+				preset = "none",
+				["<C-c>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-j>"] = { "select_next", "fallback_to_mappings" },
+				["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+				["<Tab>"] = {
+					function(cmp)
+						if cmp.snippet_active() then
+							return cmp.accept()
+						else
+							return cmp.select_and_accept()
+						end
+					end,
+					"snippet_forward",
+					"fallback",
+				},
 			},
-			completion = {
-				menu = {
-					draw = {
-						columns = {
-							{ "label", "label_description", gap = 1 },
-							{ "kind_icon", "kind" },
-						},
+			appearance = {
+				nerd_font_variant = "mono",
+			},
+			completion = { documentation = { auto_show = true, auto_show_delay_ms = 1000 } },
+			sources = {
+				providers = {
+					lsp = {
+						min_keyword_length = 0,
 					},
-					auto_show = true,
 				},
-				documentation = {
-					auto_show = true,
-					auto_show_delay_ms = 200,
-				},
+				default = { "lsp", "path", "snippets", "buffer" },
 			},
-			fuzzy = {
-				sorts = {
-					"score",
-					"sort_text",
-					"kind",
-				},
-			},
-			signature = {
-				enabled = true,
-			},
+			fuzzy = { sorts = { "score", "sort_text", "kind" }, implementation = "prefer_rust_with_warning" },
+			signature = { enabled = true },
 		},
-    opts_extend = { "sources.completion.enabled_providers"}
+		opts_extend = { "sources.default" },
 	},
 	{
 		"dgagn/diagflow.nvim",
@@ -69,7 +71,7 @@ return {
 			},
 			{
 				"<leader>cs",
-				"<cmd>Trouble symbols toggle focus=false<cr>",
+				"<cmd>Trouble symbols toggle focus=false win.position=left<cr>",
 				desc = "Class Symbols",
 			},
 			{
@@ -77,16 +79,16 @@ return {
 				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
 				desc = "Find Usages...",
 			},
-			{
-				"<leader>cl",
-				"<cmd>Trouble loclist toggle<cr>",
-				desc = "LocList",
-			},
-			{
-				"<leader>cq",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "QFList",
-			},
+			-- {
+			-- 	"<leader>cl",
+			-- 	"<cmd>Trouble loclist toggle<cr>",
+			-- 	desc = "LocList",
+			-- },
+			-- {
+			-- 	"<leader>cq",
+			-- 	"<cmd>Trouble qflist toggle<cr>",
+			-- 	desc = "QFList",
+			-- },
 		},
 	},
 	{
