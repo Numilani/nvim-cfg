@@ -96,6 +96,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- autorun overseer's task search
+vim.api.nvim_create_autocmd({"VimEnter", "DirChanged"}, {
+  callback = function()
+    local cwd = vim.v.cwd or vim.fn.getcwd()
+    require("overseer").preload_task_cache({ dir = cwd })
+  end
+})
+
+
 -- disable underlines for info/hints 
 vim.diagnostic.config({
 	virtual_text = false,
@@ -286,6 +295,9 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', { desc = "Find Everywhere" })
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
+vim.keymap.set("n", "<leader>fc", ":lua require'telescope.builtin'.git_status()<CR>", { desc = "Find Changed Files" })
+vim.keymap.set("x", "<leader>fy", '"zy<Cmd>lua require("telescope.builtin").grep_string({ search = vim.fn.getreg("z") })<CR>', { silent = true })
+
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
 -- LSP Go-to functions
@@ -293,6 +305,7 @@ vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition()<CR>", { desc = 
 vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto TypeDef" })
 vim.keymap.set("n", "<leader>gi", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
 vim.keymap.set("n", "<leader>go", ":lua require'telescope'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
+vim.keymap.set("n", "<leader>gu", ":lua require'telescope'.references()<CR>", { desc = "Goto Usages" })
 
 
 -- Debugger advanced commands

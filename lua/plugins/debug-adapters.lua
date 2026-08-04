@@ -16,6 +16,9 @@ return {
 				command = "C:/Users/JohnArnold/AppData/Local/nvim-data"
 					.. "/mason/packages/netcoredbg/netcoredbg/netcoredbg.exe",
 				args = { "--interpreter=vscode" },
+        options = {
+          detached = false
+        }
 			}
 			-- dap.adapters.node2 = {
 			--   type = 'executable',
