@@ -102,7 +102,6 @@ return {
 					hotCodeReplace = "auto",
 				},
 			}
-			- }
 			dap.configurations.javascript = {
 				{
 					type = "pwa-node",
