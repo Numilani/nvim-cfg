@@ -259,17 +259,12 @@ end, { desc = "Format" })
 vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
 
 -- Search and replace
-vim.keymap.set(
-	"n",
-	"<leader>ff",
-	':lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>',
-	{ desc = "Find in File" }
-)
+vim.keymap.set("n",	"<leader>ff",':lua require"telescope.builtin".buffers()<CR>',	{ desc = "Find open buffer" })
 vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', { desc = "Find Everywhere" })
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 vim.keymap.set("n", "<leader>fc", ":lua require'telescope.builtin'.git_status()<CR>", { desc = "Find Changed Files" })
-vim.keymap.set("x", "<leader>fy", '"zy<Cmd>lua require("telescope.builtin").grep_string({ search = vim.fn.getreg("z") })<CR>', { silent = true })
+vim.keymap.set("x", "<leader>fy", '"zy<Cmd>lua require("telescope.builtin").grep_string({ search = vim.fn.getreg("z") })<CR>', { silent = true, desc = "find selection" })
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
 -- LSP Go-to functions
@@ -277,7 +272,7 @@ vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition()<CR>", { desc = 
 vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto TypeDef" })
 vim.keymap.set("n", "<leader>gi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
 vim.keymap.set("n", "<leader>go", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
-vim.keymap.set("n", "<leader>gu", ":lua require'telescope.builtin'.references()<CR>", { desc = "Goto Usages" })
+vim.keymap.set("n", "<leader>gu", ":lua require'telescope.builtin'.lsp_references()<CR>", { desc = "Goto Usages" })
 
 -- Debugger advanced commands
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })

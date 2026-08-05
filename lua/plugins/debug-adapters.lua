@@ -6,46 +6,14 @@ return {
 			"williamboman/mason.nvim",
 		},
 		config = function()
+            -- NOTE: got rid of launchsettings.json tweaks, they weren't working anyway.
+            -- just edit the files and flag them for ignoring in git worktree
+            -- (git update-index --skip-worktree <filename>)
+			
 			local dap = require("dap")
-
-            -- automerge VSCode launchsettings into tasks
-			dap.listeners.on_config["launchsettings-merge"] = function(config)
-				if config.type ~= "coreclr" and config.type ~= "netcoredbg" then
-					return config
-				end
-				if not config.env or not config.env.ASPNETCORE_HTTP_PORT then
-					return config
-				end
-
-				local merged = vim.deepcopy(config)
-				local port = merged.env.ASPNETCORE_HTTP_PORT
-				merged.env.ASPNETCORE_URLS = "https://localhost:" .. port
-				return merged
-			end
-
-			-- Reusable function to fix the env nesting dynamically
-            -- idk if I still need this or not, so it stays for now
-			local function fix_env_nesting(adapter_name)
-				dap.adapters[adapter_name] = vim.tbl_deep_extend("force", dap.adapters[adapter_name] or {}, {
-					enrich_config = function(config, on_config)
-						if config.env then
-							config.options = config.options or {}
-							config.options.env = vim.tbl_deep_extend("force", config.options.env or {}, config.env)
-						end
-						on_config(config)
-					end,
-				})
-			end
-
-			local adapters_to_fix = { "coreclr", "python", "node2" }
-
-			for _, adapter in ipairs(adapters_to_fix) do
-				fix_env_nesting(adapter)
-			end
-
-            -- 
-            --    ADAPTER SETTINGS
             --
+			--    ADAPTER SETTINGS
+			--
 
 			dap.adapters.python = {
 				type = "executable",
@@ -55,19 +23,25 @@ return {
 				type = "executable",
 				command = vim.fn.exepath("netcoredbg"),
 				args = { "--interpreter=vscode" },
+				options = {
+					detached = false,
+				},
 			}
-			
-            dap.adapters["pwa-node"] = {
+
+			dap.adapters["pwa-node"] = {
 				type = "server",
 				host = "localhost",
 				port = "${port}",
 				executable = {
 					command = "node",
-					args = { vim.fn.stdpath('data') .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js","${port}",	},
+					args = {
+						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
 				},
 			}
 
-            dap.adapters.codelldb = {
+			dap.adapters.codelldb = {
 				type = "server",
 				port = "${port}",
 				executable = {
@@ -76,10 +50,10 @@ return {
 				},
 			}
 
-            --
-            --    CONFIGURATIONS
-            --
-            
+			--
+			--    CONFIGURATIONS
+			--
+
 			dap.configurations.python = {
 				{
 					type = "python",
@@ -198,6 +172,11 @@ return {
 					name = "launch - netcoredbg",
 					request = "launch",
 					program = get_dll,
+					env = {
+						ASPNETCORE_ENVIRONMENT = "Development",
+						ASPNETCORE_URLS = "<https://localhost:5001>;<http://localhost:5000>",
+					},
+					console = "integratedTerminal",
 				},
 			}
 		end,
