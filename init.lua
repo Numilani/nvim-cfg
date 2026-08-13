@@ -254,9 +254,12 @@ end, { desc = "Hover Info" })
 vim.keymap.set({ "n", "v" }, "<leader>cf", function()
   require("conform").format({ lsp_fallback = true, async = true, timeout_ms = 1500 })
 end, { desc = "Format" })
+vim.keymap.set("n", "<leader>cj", ":%!jq .<CR>", {desc = "Format JSON"})
 
 -- AI command
-vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
+-- vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
+vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat toggle<CR>", { desc = "Toggle AI Chat" })
+vim.keymap.set("n", "<leader>ai", ":CodeCompanion<CR>", { desc = "Inline AI query" })
 
 -- Search and replace
 vim.keymap.set("n",	"<leader>ff",':lua require"telescope.builtin".buffers()<CR>',	{ desc = "Find open buffer" })

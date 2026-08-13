@@ -141,8 +141,6 @@ return {
 				require("FTerm").setup({
 					cmd = "powershell",
 				})
-			else
-				require("FTerm").setup()
 			end
 		end,
 	},
