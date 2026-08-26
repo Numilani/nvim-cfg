@@ -1,4 +1,4 @@
--- 
+--
 -- V I M    O P T I O N S
 --
 
@@ -13,9 +13,9 @@ vim.opt.termguicolors = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
-vim.opt.tabstop = 4 
-vim.opt.softtabstop = 4 
-vim.opt.shiftwidth = 4 
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 
@@ -81,7 +81,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 require("config.lazy")
 vim.cmd.colorscheme("molokai")
 
-
 --
 -- L S P   A N D   D I A G N O S T I C S
 --
@@ -90,15 +89,15 @@ vim.cmd.colorscheme("molokai")
 
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client:supports_method("textDocument/foldingRange") then
-      vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
-    end
-  end,
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client:supports_method("textDocument/foldingRange") then
+			vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+		end
+	end,
 })
 
--- disable underlines for info/hints 
+-- disable underlines for info/hints
 vim.diagnostic.config({
 	virtual_text = false,
 	underline = {
@@ -109,23 +108,22 @@ vim.diagnostic.config({
 })
 
 -- configure LSPs
-vim.lsp.config('html', {
-  filetypes = {"html", "razor" }
+vim.lsp.config("html", {
+	filetypes = { "html", "razor" },
 })
 
 -- enable LSPs
 
-vim.lsp.enable('html')
-vim.lsp.enable('jsonls')
-vim.lsp.enable('marksman')
+vim.lsp.enable("html")
+vim.lsp.enable("jsonls")
+vim.lsp.enable("marksman")
 
 -- vim.lsp.enable('roslyn_ls')
 
-vim.lsp.enable('stylua')
+vim.lsp.enable("stylua")
 
-vim.lsp.enable('ts_ls')
+vim.lsp.enable("ts_ls")
 -- vim.lsp.enable('tsgo')
-
 
 --
 -- D E B U G G I N G
@@ -177,14 +175,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
-
 --
 -- C U S T O M   K E Y B I N D I N G S
 --
 
 --
---   TOP-LEVEL KEYBINDS 
--- 
+--   TOP-LEVEL KEYBINDS
+--
 
 -- double-tap escape exits terminal cursor lock
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
@@ -235,12 +232,11 @@ vim.keymap.set("n", "<F8>", ":DapStepInto<CR>", { desc = "(DBG) Step Into" })
 vim.keymap.set("n", "<F9>", ":DapToggleBreakpoint<CR>", { desc = "(DBG) Toggle Breakpoint" })
 vim.keymap.set("n", "<F10>", ":DapViewToggle<CR>", { desc = "(DBG) Toggle Debug UI" })
 
-
 --
 --   MENU KEYBINDS
 --
 
--- Code Completion 
+-- Code Completion
 vim.keymap.set({ "n", "v" }, "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
 vim.keymap.set({ "n", "i" }, "<C-p>", function()
 	vim.lsp.buf.signature_help()
@@ -252,9 +248,10 @@ vim.keymap.set("n", "<leader>cv", function()
 	vim.lsp.buf.hover()
 end, { desc = "Hover Info" })
 vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-  require("conform").format({ lsp_fallback = true, async = true, timeout_ms = 1500 })
+	require("conform").format({ lsp_fallback = true, async = true, timeout_ms = 1500 })
 end, { desc = "Format" })
-vim.keymap.set("n", "<leader>cj", ":%!jq .<CR>", {desc = "Format JSON"})
+vim.keymap.set("n", "<leader>cj", ":%!jq .<CR>", { desc = "Format JSON" })
+vim.keymap.set("n", "<leader>ct", ":%!jq .<CR>", { desc = "Format JSON" })
 
 -- AI command
 -- vim.keymap.set("n", "<leader>ai", ":Pairup toggle<CR>", { desc = "Toggle Pairup AI" })
@@ -262,25 +259,40 @@ vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat toggle<CR>", { desc = "Tog
 vim.keymap.set("n", "<leader>ai", ":CodeCompanion<CR>", { desc = "Inline AI query" })
 
 -- Search and replace
-vim.keymap.set("n",	"<leader>ff",':lua require"telescope.builtin".buffers()<CR>',	{ desc = "Find open buffer" })
+vim.keymap.set("n", "<leader>ff", ':lua require"telescope.builtin".buffers()<CR>', { desc = "Find open buffer" })
 vim.keymap.set("n", "<leader>fg", ':lua require"telescope.builtin".live_grep()<CR>', { desc = "Find Everywhere" })
 vim.keymap.set("n", "<leader>fr", ":GrugFar<CR>", { desc = "Find/Replace" })
 vim.keymap.set("n", "<leader>fF", ":lua require'telescope.builtin'.find_files()<CR>", { desc = "Find Files" })
 vim.keymap.set("n", "<leader>fc", ":lua require'telescope.builtin'.git_status()<CR>", { desc = "Find Changed Files" })
-vim.keymap.set("x", "<leader>fy", '"zy<Cmd>lua require("telescope.builtin").grep_string({ search = vim.fn.getreg("z") })<CR>', { silent = true, desc = "find selection" })
+vim.keymap.set(
+	"x",
+	"<leader>fy",
+	'"zy<Cmd>lua require("telescope.builtin").grep_string({ search = vim.fn.getreg("z") })<CR>',
+	{ silent = true, desc = "find selection" }
+)
 -- !!! (n) <leader>j - flash (acejump) - defined elsewhere, listed here for completeness
 
 -- LSP Go-to functions
 vim.keymap.set("n", "<leader>gd", ":lua vim.lsp.buf.definition()<CR>", { desc = "Goto Definition" })
 vim.keymap.set("n", "<leader>gD", ":lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto TypeDef" })
-vim.keymap.set("n", "<leader>gi", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Incoming Calls" })
-vim.keymap.set("n", "<leader>go", ":lua require'telescope.builtin'.lsp_incoming_calls()<CR>", { desc = "Goto Outgoing Calls" })
+vim.keymap.set(
+	"n",
+	"<leader>gi",
+	":lua require'telescope.builtin'.lsp_incoming_calls()<CR>",
+	{ desc = "Goto Incoming Calls" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>go",
+	":lua require'telescope.builtin'.lsp_incoming_calls()<CR>",
+	{ desc = "Goto Outgoing Calls" }
+)
 vim.keymap.set("n", "<leader>gu", ":lua require'telescope.builtin'.lsp_references()<CR>", { desc = "Goto Usages" })
 
 -- Debugger advanced commands
 vim.keymap.set("n", "<leader>d?", ":lua require'telescope'.extensions.dap.commands()<CR>", { desc = "See Debug Cmds" })
 vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { desc = "Stop" })
-vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>",{ desc = "Eval Cursor" })
+vim.keymap.set({ "n", "v" }, "<leader>de", ":lua require('dapui').eval()<CR>", { desc = "Eval Cursor" })
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
 
 -- Neotest Test Runner commands
@@ -292,9 +304,14 @@ vim.keymap.set("n", "<leader>tt", ":lua require('neotest').run.run()<CR>", { des
 vim.keymap.set("n", "<leader>tT", ":lua require('neotest').run.run({suite = true})<CR>", { desc = "Run test suite" })
 
 -- Navigation commands
-vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error" })
-vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error" })
-
+-- vim.keymap.set("n", "<leader>[", ":lua vim.diagnostic.goto_prev()<CR>", { desc = "Previous Error" })
+-- vim.keymap.set("n", "<leader>]", ":lua vim.diagnostic.goto_next()<CR>", { desc = "Next Error" })
+vim.keymap.set("n", "[", function()
+	require("todo-comments").jump_prev()
+end, { desc = "Previous TODO" })
+vim.keymap.set("n", "]", function()
+	require("todo-comments").jump_next()
+end, { desc = "Next TODO" })
 
 --
 --   CUSTOM TEXT OBJECTS

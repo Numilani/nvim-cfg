@@ -79,6 +79,11 @@ return {
 				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
 				desc = "Find Usages...",
 			},
+			{
+				"<leader>ct",
+				"<cmd>Trouble todo toggle win.position=right<cr>",
+				desc = "Show Todos",
+			},
 			-- {
 			-- 	"<leader>cl",
 			-- 	"<cmd>Trouble loclist toggle<cr>",
