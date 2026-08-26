@@ -108,6 +108,13 @@ return {
 		event = "VeryLazy",
 		opts = {},
 	},
+	{
+		"kevalin/mermaid.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			require("mermaid").setup()
+		end,
+	},
 	-- which-key - a keystroke helper
 	{
 		"folke/which-key.nvim",
