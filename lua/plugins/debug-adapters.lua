@@ -7,43 +7,8 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
-
-            -- automerge VSCode launchsettings into tasks 
-            -- dap.listeners.on_config["launchsettings-merge"] = function(config)
-            --   if config.type ~= "coreclr" and config.type ~= "netcoredbg" then
-            --     return config
-            --   end
-            --   if not config.env or not config.env.ASPNETCORE_HTTP_PORT then
-            --     return config
-            --   end
-            --
-            --   local merged = vim.deepcopy(config)
-            --   local port = merged.env.ASPNETCORE_HTTP_PORT
-            --   merged.env.ASPNETCORE_URLS = "https://localhost:" .. port     
-            --   return merged
-            -- end
-            --
-            -- -- Reusable function to fix the env nesting dynamically
-            --       -- idk if I still need this or not, so it stays for now
-            -- local function fix_env_nesting(adapter_name)
-            --   dap.adapters[adapter_name] = vim.tbl_deep_extend("force", dap.adapters[adapter_name] or {}, {
-            --     enrich_config = function(config, on_config)                            
-            --       if config.env then                                                  
-            --         config.options = config.options or {}                            
-            --         config.options.env = vim.tbl_deep_extend("force", config.options.env or {}, config.env)
-            --       end                                                                  
-            --       on_config(config)                                                   
-            --     end,                                                                 
-            --   })                                                                    
-            -- end                                                                    
-            --
-            -- local adapters_to_fix = { "coreclr", "python", "node2" }             
-            --
-            -- for _, adapter in ipairs(adapters_to_fix) do                       
-            --   fix_env_nesting(adapter)                                        
-            -- end    
-            --
-            --
+			--
+			--
 			--    ADAPTER SETTINGS
 			--
 
