@@ -1,4 +1,8 @@
 return {
+	-- CodeCompanion handles standard AI chat via API key, as well as agentic flow via ACP.
+	-- It's HIGHLY recommended that you configure settings to fit your use case,
+	-- to ensure you're not wasting money/tokens on a suboptimal configuration.
+	-- More information: https://codecompanion.olimorris.dev/usage/introduction
 	{
 		"olimorris/codecompanion.nvim",
 		version = "^19.0.0",
@@ -7,6 +11,10 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"zbirenbaum/copilot.lua", -- this is what handles auth instead of declaring a token in the adapters section; comment out if not using copilot
+		},
+		keys = {
+			{ "<leader>ac", "<cmd>CodeCompanionChat toggle<CR>", desc = "Toggle AI Chat" },
+			{ "<leader>ai", "<cmd>CodeCompanionCLI<CR>", desc = "Open CLI Agent" },
 		},
 		opts = {
 			interactions = {

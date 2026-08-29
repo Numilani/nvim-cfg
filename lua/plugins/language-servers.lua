@@ -1,9 +1,10 @@
 return {
+	-- lspconfig doesn't actually *add* LSPs, but it handles some automatic settings.
 	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
 	},
-	-- mason-tool-installer - ensure all the LSPs are installed
+	-- mason-tool-installer is purely for auto-installing tools on first launch
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		config = function()

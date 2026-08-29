@@ -1,4 +1,8 @@
 return {
+	-- jdtls is actually just a debugger, but specifically for java and handled
+	-- separately from the other adapters. It's so annoyingly complex that I
+	-- decided to give it its own file. I don't recommend tinkering with this,
+	-- it was a massive pain to get working the first time.
 	{
 		"mfussenegger/nvim-jdtls",
 		dependencies = { "folke/which-key.nvim" },
@@ -6,7 +10,7 @@ return {
 		opts = function()
 			local cmd = { vim.fn.exepath("jdtls") }
 			local mason_registry = require("mason-registry")
-      local lombok_jar = vim.fn.expand("$MASON/packages/jdtls/lombok.jar")
+			local lombok_jar = vim.fn.expand("$MASON/packages/jdtls/lombok.jar")
 			-- local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
 			table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
 			return {
@@ -69,7 +73,7 @@ return {
 			local mason_registry = require("mason-registry")
 			if opts.dap and mason_registry.is_installed("java-debug-adapter") then
 				local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
-        local java_dbg_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
+				local java_dbg_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
 				-- local java_dbg_path = java_dbg_pkg:get_install_path()
 				local jar_patterns = {
 					java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
@@ -78,7 +82,7 @@ return {
 				if opts.test and mason_registry.is_installed("java-test") then
 					local java_test_pkg = mason_registry.get_package("java-test")
 					-- local java_test_path = java_test_pkg:get_install_path()
-          local java_test_path = vim.fn.expand("$MASON/packages/java-test")
+					local java_test_path = vim.fn.expand("$MASON/packages/java-test")
 					vim.list_extend(jar_patterns, {
 						java_test_path .. "/extension/server/*.jar",
 					})
@@ -91,9 +95,13 @@ return {
 			end
 			local function attach_jdtls()
 				local fname = vim.api.nvim_buf_get_name(0)
-				if fname == "" then return end
+				if fname == "" then
+					return
+				end
 				local root_dir = opts.root_dir(fname)
-				if not root_dir then return end
+				if not root_dir then
+					return
+				end
 
 				-- Configuration can be augmented and overridden by opts.jdtls
 				local config = {
@@ -105,7 +113,7 @@ return {
 					settings = opts.settings,
 					-- enable CMP capabilities
 					-- capabilities = require("cmp_nvim_lsp").default_capabilities()
-						-- or nil,
+					-- or nil,
 					commands = {
 						["_java.reloadBundles.command"] = function()
 							return bundles
@@ -122,7 +130,7 @@ return {
 			-- depending on filetype, so this autocmd doesn't run for the first file.
 			-- For that, we call directly below.
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = {"java"},
+				pattern = { "java" },
 				callback = attach_jdtls,
 			})
 
@@ -169,52 +177,49 @@ return {
 							},
 						})
 
-							local mason_registry = require("mason-registry")
-							if
-								opts.dap
-								and mason_registry.is_installed("java-debug-adapter")
-							then
-								-- custom init for Java debugger
-								require("jdtls").setup_dap(opts.dap)
-								if opts.dap_main then
-									require("jdtls.dap").setup_dap_main_class_configs(opts.dap_main)
-								end
-
-								-- Java Test require Java debugger to work
-								if opts.test and mason_registry.is_installed("java-test") then
-									-- custom keymaps for Java test runner (not yet compatible with neotest)
-									wk.add({
-										{
-											mode = "n",
-											buffer = args.buf,
-											{ "<leader>t", group = "test" },
-											{
-												"<leader>tt",
-												function()
-													require("jdtls.dap").test_class({
-														config_overrides = type(opts.test) ~= "boolean"
-																and opts.test.config_overrides
-															or nil,
-													})
-												end,
-												desc = "Run All Test",
-											},
-											{
-												"<leader>tr",
-												function()
-													require("jdtls.dap").test_nearest_method({
-														config_overrides = type(opts.test) ~= "boolean"
-																and opts.test.config_overrides
-															or nil,
-													})
-												end,
-												desc = "Run Nearest Test",
-											},
-											{ "<leader>tT", require("jdtls.dap").pick_test, desc = "Run Test" },
-										},
-									})
-								end
+						local mason_registry = require("mason-registry")
+						if opts.dap and mason_registry.is_installed("java-debug-adapter") then
+							-- custom init for Java debugger
+							require("jdtls").setup_dap(opts.dap)
+							if opts.dap_main then
+								require("jdtls.dap").setup_dap_main_class_configs(opts.dap_main)
 							end
+
+							-- Java Test require Java debugger to work
+							if opts.test and mason_registry.is_installed("java-test") then
+								-- custom keymaps for Java test runner (not yet compatible with neotest)
+								wk.add({
+									{
+										mode = "n",
+										buffer = args.buf,
+										{ "<leader>t", group = "test" },
+										{
+											"<leader>tt",
+											function()
+												require("jdtls.dap").test_class({
+													config_overrides = type(opts.test) ~= "boolean"
+															and opts.test.config_overrides
+														or nil,
+												})
+											end,
+											desc = "Run All Test",
+										},
+										{
+											"<leader>tr",
+											function()
+												require("jdtls.dap").test_nearest_method({
+													config_overrides = type(opts.test) ~= "boolean"
+															and opts.test.config_overrides
+														or nil,
+												})
+											end,
+											desc = "Run Nearest Test",
+										},
+										{ "<leader>tT", require("jdtls.dap").pick_test, desc = "Run Test" },
+									},
+								})
+							end
+						end
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then

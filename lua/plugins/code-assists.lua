@@ -1,4 +1,7 @@
 return {
+	-- blink.cmp is a blazing-fast completion engine.
+	-- It has lots of configurable features, many of which are not enabled for this minimalist setup.
+	-- More info: https://cmp.saghen.dev
 	{
 		"saghen/blink.cmp",
 		dependencies = { "rafamadriz/friendly-snippets" },
@@ -6,7 +9,7 @@ return {
 		opts = {
 			keymap = {
 				preset = "none",
-				["<C-c>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-c>"] = { "show", "hide" },
 				["<C-j>"] = { "select_next", "fallback_to_mappings" },
 				["<C-k>"] = { "select_prev", "fallback_to_mappings" },
 				["<Tab>"] = {
@@ -38,25 +41,73 @@ return {
 		},
 		opts_extend = { "sources.default" },
 	},
+    -- friendly-snippets is just some code snips to make autocompletes better
+    {
+        "rafamadriz/friendly-snippets"
+    },
+	-- nvim-treesitter is what provides syntax highlighting.
+	-- It can even be used without LSPs, relying instead on syntax trees!
 	{
-		"dgagn/diagflow.nvim",
-		config = function()
-			require("diagflow").setup()
+		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		main = "nvim-treesitter",
+		build = ":TSUpdate",
+		lazy = false,
+		opts = {
+			install_dir = vim.fn.stdpath("data") .. "/site",
+			indent = { enable = true },
+		},
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					pcall(vim.treesitter.start)
+				end,
+			})
 		end,
 	},
+	-- ts-autotag handles automatic closing of tags (i.e. html tags).
 	{
-		"stevearc/overseer.nvim",
+		"windwp/nvim-ts-autotag",
+		lazy = false,
 		config = function()
-			require("overseer").setup()
+			require("nvim-ts-autotag").setup({
+				opts = {
+					enable = true,
+					enable_close = true,
+					enable_rename = true,
+					filetypes = {
+						"html",
+						"xml",
+						"js",
+						"jsx",
+						"typescript",
+						"ts",
+						"tsx",
+						"javascriptreact",
+						"typescriptreact",
+					},
+				},
+				aliases = {
+					["razor"] = "html",
+				},
+			})
 		end,
 	},
+	-- grug-far provides a cleaner UI for handling workspace-wide search and replace!
+	{
+		"MagicDuck/grug-far.nvim",
+		keys = {
+			{ "<leader>fr", "<cmd>GrugFar<CR>", desc = "Find/Replace" },
+		},
+	},
+	-- trouble provides a cleaner interface for viewing various LSP-related info
 	{
 		"folke/trouble.nvim",
 		opts = {
 			win = {
 				size = 0.5,
 			},
-		}, -- for default options, refer to the configuration section for custom setup.
+		},
 		cmd = "Trouble",
 		keys = {
 			{
@@ -96,7 +147,117 @@ return {
 			-- },
 		},
 	},
+	-- this just highlights brace pairs with colors to make it easier to see which sets pair up :)
 	{
 		"HiPhish/rainbow-delimiters.nvim",
+	},
+	-- conform handles code formatting, working with and without LSPs.
+	-- Highly configurable, just use Mason to install a formatter and set it up here.
+	{
+		"stevearc/conform.nvim",
+		keys = {
+			{
+				"<leader>cf",
+				mode = { "n", "v" },
+				function()
+					require("conform").format({ lsp_fallback = true, async = true, timeout_ms = 1500 })
+				end,
+				desc = "Format",
+			},
+		},
+		config = function(_, opts)
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					-- cs = { "csharpier" },
+					java = { "google-java-format" },
+					python = { "black" },
+					html = { "htmlbeautifier" },
+					javascript = { "prettier", "eslint_d", lsp_format = "never" },
+					javascriptreact = { "prettier", "eslint_d", lsp_format = "never" },
+					typescript = { "prettier", "eslint_d", lsp_format = "never" },
+					typescriptreact = { "prettier", "eslint_d", lsp_format = "never" },
+					json = { "prettier" },
+				},
+				format_on_save = {
+					timeout_ms = 1500,
+					lsp_format = "fallback",
+				},
+				default_format_opts = {
+					lsp_format = "prefer",
+				},
+			})
+			require("conform").formatters.injected = {
+				options = {
+					ignore_errors = true,
+				},
+			}
+		end,
+	},
+	-- nvim-lint is to linters what conform is to formatters. same deal here.
+	{
+		"mfussenegger/nvim-lint",
+		config = function(_, opts)
+			require("lint").linters_by_ft = {
+				markdown = { "vale" },
+				python = { "pylint" },
+				html = { "htmlhint" },
+			}
+		end,
+	},
+	-- neotest is the standard test runner. It can be slow at times, but can also
+	-- be configured for tradeoffs between performance and features.
+	-- It usually needs some add-on for each language, but many are available.
+	-- more info: https://github.com/nvim-neotest/neotest
+	{
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"marilari88/neotest-vitest",
+			"Nsidorenco/neotest-vstest",
+			"nvim-neotest/neotest-python",
+		},
+		keys = {
+			{ "<leader>ta", "<cmd>lua require('neotest').run.attach()<CR>", desc = "Attach" },
+			{ "<leader>tx", "<cmd>lua require('neotest').run.stop()<CR>", desc = "Terminate" },
+			{ "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<CR>", desc = "Toggle summary" },
+			{ "<leader>to", "<cmd>lua require('neotest').output_panel.toggle()<CR>", desc = "Toggle output panel" },
+			{ "<leader>tt", "<cmd>lua require('neotest').run.run()<CR>", desc = "Run nearest test" },
+			{ "<leader>tT", "<cmd>lua require('neotest').run.run({suite = true})<CR>", desc = "Run test suite" },
+		},
+		config = function()
+			require("neotest").setup({
+				adapters = {
+					require("neotest-vitest"),
+					require("neotest-vstest"),
+					require("neotest-python"),
+				},
+			})
+		end,
+	},
+	-- ...and here's the adapters I use :)
+	{
+		"nvim-neotest/neotest-python",
+		ft = { "python" },
+	},
+	{
+		"rcasia/neotest-java",
+		ft = { "java" },
+		dependencies = {
+			"nvim-java/nvim-java",
+			"mfussenegger/nvim-dap",
+
+			"rcarriga/nvim-dap-ui",
+		},
+	},
+	{
+		"Nsidorenco/neotest-vstest",
+		ft = { "cs" },
+	},
+	{
+		"marilari88/neotest-vitest",
+		ft = { "js", "ts", "jsx", "tsx", "javascriptreact", "typescriptreact" },
 	},
 }

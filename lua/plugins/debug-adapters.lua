@@ -1,9 +1,22 @@
 return {
+	-- nvim-dap gets its own file because it requires so much custom configuration.
+	-- DAP is a protocol with an extensive amount of information, but config tips
+	-- specific to nvim-dap can be found here:
+	-- https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
 	{
 		"mfussenegger/nvim-dap",
 		-- lazy = false,
 		dependencies = {
 			"williamboman/mason.nvim",
+		},
+		keys = {
+			{ "<F5>", "<cmd>DapContinue<CR>", desc = "(DBG) Start/Continue" },
+			{ "<F6>", "<cmd>DapStepOut<CR>", desc = "(DBG) Step Out" },
+			{ "<F7>", "<cmd>DapStepOver<CR>", desc = "(DBG) Step Over" },
+			{ "<F8>", "<cmd>DapStepInto<CR>", desc = "(DBG) Step Into" },
+			{ "<F9>", "<cmd>DapToggleBreakpoint<CR>", desc = "(DBG) Toggle Breakpoint" },
+			{ "<F10>", "<cmd>DapViewToggle<CR>", desc = "(DBG) Toggle Debug UI" },
+			{ "<F11>", "<cmd>lua require'dapui'.eval()<CR>", desc = "(DBG) Eval Cursor" },
 		},
 		config = function()
 			local dap = require("dap")
@@ -178,20 +191,28 @@ return {
 			}
 		end,
 	},
+	-- some custom extensions have made setup a bit easier; python in particular
+	-- can be a bit difficult, so I've added this to compensate. It's not required, tho.
 	{
 		"mfussenegger/nvim-dap-python",
 		config = function()
 			require("dap-python").setup("/usr/bin/python")
 		end,
 	},
+	-- nvim-dap, in isolation, doesn't actually have a UI at all.
+	-- nvim-dap-view adds one, though there's also nvim-dap-ui as an alternative.
 	{
 		"igorlfs/nvim-dap-view",
 		lazy = false,
-		sections = { "console", "watches", "breakpoints", "scopes", "exceptions", "threads", "repl" },
-		default_section = "console",
-		controls = {
-			enabled = true,
+		opts = {
+			winbar = {
+				sections = { "console", "watches", "breakpoints", "scopes", "exceptions", "threads", "repl" },
+				default_section = "console",
+				controls = {
+					enabled = true,
+				},
+			},
+			auto_toggle = true,
 		},
-		auto_toggle = true,
 	},
 }
