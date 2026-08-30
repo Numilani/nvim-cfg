@@ -209,11 +209,11 @@ return {
             require('navimark').setup({
                 keymap = {
                     base = {
-                        mark_toggle = "mm",
-                        mark_add_with_title = "m,",
+                        mark_toggle = "",
+                        mark_add = "ma",
+                        mark_add_with_title = "mn",
                         mark_remove = "mx",
-                        mark_add = "",
-                        open_mark_picker = "mM",
+                        open_mark_picker = "mo",
                     },
                 },
             })

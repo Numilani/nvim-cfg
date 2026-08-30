@@ -59,7 +59,6 @@ vim.keymap.set(
 
 -- a quick script for reformatting pasted JSON. Great for quickly reading OTEL logs!
 vim.keymap.set("n", "<leader>cj", ":%!jq .<CR>", { desc = "Format JSON" })
-vim.keymap.set("n", "<leader>ct", ":%!jq .<CR>", { desc = "Format JSON" })
 
 -- specific key for JDTLS
 vim.keymap.set("n", "<leader>dr", ":JdtUpdateHotcode<CR>", { desc = "Hot Reload" })
