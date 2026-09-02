@@ -41,10 +41,10 @@ return {
 		},
 		opts_extend = { "sources.default" },
 	},
-    -- friendly-snippets is just some code snips to make autocompletes better
-    {
-        "rafamadriz/friendly-snippets"
-    },
+	-- friendly-snippets is just some code snips to make autocompletes better
+	{
+		"rafamadriz/friendly-snippets",
+	},
 	-- nvim-treesitter is what provides syntax highlighting.
 	-- It can even be used without LSPs, relying instead on syntax trees!
 	{
@@ -205,59 +205,9 @@ return {
 			}
 		end,
 	},
-	-- neotest is the standard test runner. It can be slow at times, but can also
-	-- be configured for tradeoffs between performance and features.
-	-- It usually needs some add-on for each language, but many are available.
-	-- more info: https://github.com/nvim-neotest/neotest
-	{
-		"nvim-neotest/neotest",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"antoinemadec/FixCursorHold.nvim",
-			"marilari88/neotest-vitest",
-			"Nsidorenco/neotest-vstest",
-			"nvim-neotest/neotest-python",
-		},
-		keys = {
-			{ "<leader>ta", "<cmd>lua require('neotest').run.attach()<CR>", desc = "Attach" },
-			{ "<leader>tx", "<cmd>lua require('neotest').run.stop()<CR>", desc = "Terminate" },
-			{ "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<CR>", desc = "Toggle summary" },
-			{ "<leader>to", "<cmd>lua require('neotest').output_panel.toggle()<CR>", desc = "Toggle output panel" },
-			{ "<leader>tt", "<cmd>lua require('neotest').run.run()<CR>", desc = "Run nearest test" },
-			{ "<leader>tT", "<cmd>lua require('neotest').run.run({suite = true})<CR>", desc = "Run test suite" },
-		},
-		config = function()
-			require("neotest").setup({
-				adapters = {
-					require("neotest-vitest"),
-					require("neotest-vstest"),
-					require("neotest-python"),
-				},
-			})
-		end,
-	},
-	-- ...and here's the adapters I use :)
-	{
-		"nvim-neotest/neotest-python",
-		ft = { "python" },
-	},
-	{
-		"rcasia/neotest-java",
-		ft = { "java" },
-		dependencies = {
-			"nvim-java/nvim-java",
-			"mfussenegger/nvim-dap",
-
-			"rcarriga/nvim-dap-ui",
-		},
-	},
-	{
-		"Nsidorenco/neotest-vstest",
-		ft = { "cs" },
-	},
-	{
-		"marilari88/neotest-vitest",
-		ft = { "js", "ts", "jsx", "tsx", "javascriptreact", "typescriptreact" },
-	},
+    -- Neotest used to live here.
+    -- Neotest is slow, and turned out to be slowing the whole experience down.
+    -- I have removed neotest. RIP. 
+    -- Instead, I suggest setting up testing through tasks.json or overseer.
+	
 }
